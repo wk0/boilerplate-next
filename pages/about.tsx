@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
-const Home: NextPage = () => {
+const About: NextPage = () => {
   return (
     <div>
       <Head>
@@ -13,13 +13,13 @@ const Home: NextPage = () => {
       </Head>
 
       <nav>
-        <Link href="/about">
-          <a>About</a>
+        <Link href="/">
+          <a>Home</a>
         </Link>
       </nav>
 
       <main>
-        <h1>Home Page</h1>
+        <h1>About Page</h1>
       </main>
 
       <footer>
@@ -29,4 +29,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default About
