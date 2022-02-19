@@ -12,18 +12,18 @@ const Home: NextPage = () => {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
 
-      <nav>
+      <nav className="p-4">
         <Link href="/about">
-          <a>About</a>
+          <a className="text-lg font-light">About</a>
         </Link>
       </nav>
 
-      <main>
-        <h1>Home Page</h1>
+      <main className="p-8 text-center">
+        <h1 className="text-4xl font-bold">Home Page</h1>
       </main>
 
-      <footer>
-        <p>Footer</p>
+      <footer className="p-4">
+        <p className="text-lg font-light">Footer</p>
       </footer>
     </div>
   )
