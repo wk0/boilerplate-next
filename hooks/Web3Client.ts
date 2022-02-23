@@ -30,11 +30,6 @@ if (typeof window !== 'undefined') {
   })
 }
 
-type Web3Client = Web3ProviderState & {
-  connect: () => Promise<void>
-  disconnect: () => Promise<void>
-}
-
 export const useWeb3 = () => {
   const [state, dispatch] = useReducer(web3Reducer, web3InitialState)
   const { provider, web3Provider, address, network } = state
@@ -136,5 +131,5 @@ export const useWeb3 = () => {
     network,
     connect,
     disconnect,
-  } as Web3Client
+  } as Web3ProviderState
 }
