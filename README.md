@@ -14,15 +14,9 @@ Step by step guide to setting up with Tailwind: [Medium](https://wk0.medium.com/
 
 [![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/tailwind)
 
-<<<<<<< HEAD
+--- 
 
-=======
-
-> > > > > > > main
-
----
-
-With Web3
+With Web3  
 
 Step by step guide to setting up with Web3: [Medium](https://wk0.medium.com/adding-web3-to-our-nextjs-typescript-project-861e9ed5feaf)
 
