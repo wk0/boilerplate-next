@@ -13,3 +13,12 @@ With TailwindCSS
 Step by step guide to setting up with Tailwind: [Medium](https://wk0.medium.com/adding-tailwind-to-a-nextjs-typescript-project-d1eba5699c4d)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/tailwind)
+
+
+--- 
+
+With Web3  
+
+Step by step guide to setting up with Web3: [Medium](https://wk0.medium.com/adding-web3-to-our-nextjs-typescript-project-861e9ed5feaf)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/web3-eth)
