@@ -21,3 +21,11 @@ With Web3
 Step by step guide to setting up with Web3: [Medium](https://wk0.medium.com/adding-web3-to-our-nextjs-typescript-project-861e9ed5feaf)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/web3-eth)
+
+---
+
+As a Monorepo
+
+How to convert: [Medium](https://medium.com/p/bf4007fdfa87)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/as-workspace)
