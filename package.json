@@ -6,6 +6,7 @@
   "repository": "git@github.com:wk0/boilerplate-next.git",
   "author": "Will  Kelly <willkelly0@gmail.com>",
   "license": "MIT",
+  "private": true,
   "workspaces": [
     "packages/*"
   ],

@@ -7,29 +7,34 @@ on:
     branches:
       - '*'
 
+
 jobs:
   test:
     name: Setup
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: ./packages/web
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: '16.6.2'
+          node-version: '16.8.0'
           check-latest: true
 
       - name: Install Npm Dependencies
-        run: yarn install
+        run: yarn install        
 
       - name: Build App
-        run: yarn web:build
+        run: yarn build
 
       - name: Run tests with jest
-        run: yarn web:test:ci
+        run: yarn test:ci
 
       - name: Cypress.io
         uses: cypress-io/github-action@v2
         with:
-          start: yarn web:start
+          working-directory: ./packages/web
+          start: yarn start
           wait-on: 'http://localhost:3000'
