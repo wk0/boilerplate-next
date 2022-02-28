@@ -9,11 +9,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "scripts": {
     "prepare": "husky install",
     "web": "yarn workspace web dev",
