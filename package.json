@@ -12,12 +12,21 @@
   ],
   "scripts": {
     "prepare": "husky install",
+    "dev": "concurrently --kill-others-on-fail \"yarn contracts\"  \"yarn web\"",
     "web": "yarn workspace web dev",
     "web:build": "yarn workspace web build",
     "web:start": "yarn workspace web start",
     "web:lint": "yarn workspace web lint",
     "web:test": "yarn workspace web test",
     "web:test:ci": "yarn workspace web test:ci",
-    "web:cypress": "yarn workspace web cypress"
+    "web:cypress": "yarn workspace web cypress",
+    "contracts": "yarn workspace contracts dev",
+    "contracts:compile": "yarn workspace contracts compile",
+    "contracts:void:deploy": "yarn workspace contracts void:deploy",
+    "contracts:test": "yarn workspace contracts test",
+    "contracts:test:ci": "yarn workspace contracts test:ci"
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0"
   }
 }
