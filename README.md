@@ -29,3 +29,12 @@ As a Monorepo
 How to convert: [Medium](https://medium.com/p/bf4007fdfa87)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/as-workspace)
+
+
+---
+
+With Contracts
+
+How to add hardhat: [Medium](https://medium.com/@wk0/integrating-smart-contracts-using-hardhat-with-nextjs-typescript-7206890b9cd8)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://github.com/wk0/boilerplate-next/tree/with-contracts)
