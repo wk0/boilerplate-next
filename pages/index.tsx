@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   const { provider } = useWeb3Context()
   const [status, setStatus] = useState('Waiting for interaction...')
   const contractAddress = '0x709e99C713d57E60d1Cf4A9E271989f1718780Ee'
+
   const wave = async () => {
     try {
       const currentProvider = new ethers.providers.Web3Provider(provider)
@@ -49,7 +50,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await Axios.get('http://localhost:3000/api/hello')
+      const response = await Axios.get('/api/hello')
       if (response.status === 200 && response) {
         setName(response.data.name)
       }
