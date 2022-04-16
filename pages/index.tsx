@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { Web3Button } from '../components'
 import { useWeb3Context } from '../context'
 import abi from './abi.json'
@@ -9,9 +8,8 @@ import { ethers } from 'ethers'
 import Axios from 'axios'
 
 const Home: NextPage = () => {
-  const [loading, setLoading] = useState(true)
   const [name, setName] = useState('World')
-  const { provider, connect, disconnect } = useWeb3Context()
+  const { provider } = useWeb3Context()
   const [status, setStatus] = useState('Waiting for interaction...')
   const contractAddress = '0x709e99C713d57E60d1Cf4A9E271989f1718780Ee'
   const wave = async () => {
@@ -52,9 +50,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await Axios.get('http://localhost:3000/api/hello')
-
       if (response.status === 200 && response) {
-        setLoading(false)
         setName(response.data.name)
       }
     }
