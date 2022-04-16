@@ -62,7 +62,6 @@ const Home: NextPage = () => {
       <Head>
         <title>Web3 Next-Boilerplate</title>
         <meta name="description" content="Boilerplate for Web3 dApp" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex w-full justify-end">
         <Web3Button />
