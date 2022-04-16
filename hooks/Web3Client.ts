@@ -2,6 +2,7 @@ import { useEffect, useReducer, useCallback } from 'react'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
 
 import {
   Web3ProviderState,
@@ -13,10 +14,23 @@ import {
 import { toast } from 'react-toastify'
 
 const providerOptions = {
+  coinbasewallet: {
+    package: CoinbaseWalletSDK, // Required
+    options: {
+      appName: 'Feat City Mint', // Required
+      rpc: {
+        5: process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI,
+      },
+      chainId: 1, // Optional. It defaults to 1 if not provided
+      darkMode: false, // Optional. Use dark theme, defaults to false
+    },
+  },
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
-      infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+      rpc: {
+        5: process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI,
+      },
     },
   },
 }
