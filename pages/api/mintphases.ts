@@ -18,7 +18,7 @@ export default function handler(
   } else {
     res.status(200).json(mintPhases.map((x) => {
       return {
-        startTimestamp: Math.floor(x.startTimestamp / 1000),
+        startTimestamp: new Date(x.startTimestamp).toISOString(),
         pricePerToken: x.pricePerToken.toString(),
         merkleRoot: x.merkleRoot,
         allowedMints: x.allowedMints,
