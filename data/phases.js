@@ -19,7 +19,7 @@ const phase3MerkleTree = generateMerkleTree(phase3AccessList)
 
 const mintPhases = [
   {
-    startTimestamp: new Date('2022-04-21T09:00:00').getTime(),
+    startTimestamp: new Date('2022-04-22T00:00:00').getTime(),
     pricePerToken: parseUnits('0', 'ether'),
     merkleTree: phase1MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
@@ -27,7 +27,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-04-21T19:00:00').getTime(),
+    startTimestamp: new Date('2022-04-23T00:00:00').getTime(),
     pricePerToken: parseUnits('0.001', 'ether'),
     merkleTree: phase2MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
@@ -35,7 +35,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-04-21T20:00:00').getTime(),
+    startTimestamp: new Date('2022-04-24T00:00:00').getTime(),
     pricePerToken: parseUnits('0.002', 'ether'),
     merkleTree: phase3MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
@@ -43,7 +43,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-04-22T09:00:00').getTime(),
+    startTimestamp: new Date('2022-04-30T00:00:00').getTime(),
     pricePerToken: 0,
     merkleTree: null,
     merkleRoot: null,
