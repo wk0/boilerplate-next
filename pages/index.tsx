@@ -6,57 +6,51 @@ import { useWeb3Context } from '../context'
 import abi from './abi.json'
 import { ethers } from 'ethers'
 import Axios from 'axios'
+import { useMintPhases } from '../hooks/useMintPhases'
+import { MintPhaseDisplay } from '../components/MintPhaseDisplay'
+import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
 
 const Home: NextPage = () => {
-  const [name, setName] = useState('World')
+  const [proof, setProof] = useState(null)
   const { provider } = useWeb3Context()
   const [status, setStatus] = useState('Waiting for interaction...')
-  const contractAddress = '0x709e99C713d57E60d1Cf4A9E271989f1718780Ee'
+  const contractAddress = '0xe0ef181fBCa2a0376d448833CAEeb60da3aB4f33'
 
-  const wave = async () => {
-    try {
-      const currentProvider = new ethers.providers.Web3Provider(provider)
-      console.log('currentProvider', currentProvider)
-      const { ethereum } = window
-      const signer = currentProvider.getSigner()
+  // const wave = async () => {
+  //   try {
+  //     const currentProvider = new ethers.providers.Web3Provider(provider)
+  //     const { ethereum } = window
+  //     const signer = currentProvider.getSigner()
 
-      if (ethereum) {
-        const wavePortalContract = new ethers.Contract(
-          contractAddress,
-          abi.abi,
-          signer
-        )
+  //     if (ethereum) {
+  //       const fcContract = new ethers.Contract(contractAddress, abi.abi, signer)
+  //       console.log(1000000000000000, 1, proof.allowedMints, proof.proofs)
+  //       let response = await fcContract.claim(
+  //         1000000000000000,
+  //         1,
+  //         proof.allowedMints,
+  //         proof.proofs
+  //       )
+  //       console.log('contract response', response)
+  //     } else {
+  //       console.log("Ethereum object doesn't exist!")
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-        let count = await wavePortalContract.getTotalWaves()
-        console.log('Retrieved total wave count...', count.toNumber())
-
-        /*
-         * Execute the actual wave from your smart contract
-         */
-        const waveTxn = await wavePortalContract.wave()
-
-        setStatus('Miners are at work...')
-        await waveTxn.wait()
-        count = await wavePortalContract.getTotalWaves()
-        console.log('Retrieved total wave count...', count.toNumber())
-        setStatus(`Total Contract Interactions: ${count.toNumber()}`)
-      } else {
-        console.log("Ethereum object doesn't exist!")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await Axios.get('/api/hello')
-      if (response.status === 200 && response) {
-        setName(response.data.name)
-      }
-    }
-    fetchData()
-  }, [])
+  // useEffect(() => {
+  //   const getClaimData = async () => {
+  //     const response = await Axios.get('/api/claimproof', {
+  //       params: { address: contractAddress },
+  //     })
+  //     if (response.status === 200 && response) {
+  //       setProof(response.data)
+  //     }
+  //   }
+  //   getClaimData()
+  // }, [])
 
   return (
     <div className="flex h-screen flex-col">
@@ -67,16 +61,15 @@ const Home: NextPage = () => {
       <div className="flex w-full justify-end">
         <Web3Button />
       </div>
-
+      <PhaseAndCountdownDisplay />
       <button
         className="mx-auto rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
         onClick={() => {
-          wave()
+          // wave()
         }}
       >
-        Interact with the Contract, {name}!
+        Mint
       </button>
-      <div className="mx-auto">{status}</div>
     </div>
   )
 }

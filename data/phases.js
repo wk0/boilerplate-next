@@ -1,28 +1,21 @@
-import { ethers } from 'ethers';
-const { parseUnits, keccak256, defaultAbiCoder } = ethers.utils;
-import { MerkleTree } from 'merkletreejs';
-import phase1AccessList from './mintphase-1';
-import phase2AccessList from './mintphase-2';
-import phase3AccessList from './mintphase-3';
-
+import { ethers } from 'ethers'
+const { parseUnits, keccak256, defaultAbiCoder } = ethers.utils
+import { MerkleTree } from 'merkletreejs'
+import phase1AccessList from './mintphase-1'
+import phase2AccessList from './mintphase-2'
+import phase3AccessList from './mintphase-3'
 
 function generateMerkleTree(accessList) {
   const leaves = accessList.map((x) =>
-    keccak256(
-      defaultAbiCoder.encode(
-        ['address', 'uint256'],
-        [x[0], x[1]],
-      ),
-    ),
-  );
-  const tree = new MerkleTree(leaves, keccak256, { sort: true });
-  return tree;
+    keccak256(defaultAbiCoder.encode(['address', 'uint256'], [x[0], x[1]]))
+  )
+  const tree = new MerkleTree(leaves, keccak256, { sort: true })
+  return tree
 }
 
-const phase1MerkleTree = generateMerkleTree(phase1AccessList);
-const phase2MerkleTree = generateMerkleTree(phase2AccessList);
-const phase3MerkleTree = generateMerkleTree(phase3AccessList);
-
+const phase1MerkleTree = generateMerkleTree(phase1AccessList)
+const phase2MerkleTree = generateMerkleTree(phase2AccessList)
+const phase3MerkleTree = generateMerkleTree(phase3AccessList)
 
 const mintPhases = [
   {
@@ -34,7 +27,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-04-21T12:00:00').getTime(),
+    startTimestamp: new Date('2022-04-21T19:00:00').getTime(),
     pricePerToken: parseUnits('0.001', 'ether'),
     merkleTree: phase2MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
@@ -56,6 +49,6 @@ const mintPhases = [
     merkleRoot: null,
     allowedMints: {},
   },
-];
+]
 
-export default mintPhases;
+export default mintPhases
