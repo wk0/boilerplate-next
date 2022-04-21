@@ -26,7 +26,7 @@ const phase3MerkleTree = generateMerkleTree(phase3AccessList);
 
 const mintPhases = [
   {
-    startTimestamp: new Date('2022-04-22T00:00:00').getTime(),
+    startTimestamp: new Date('2022-04-21T00:00:00').getTime(),
     pricePerToken: parseUnits('0', 'ether'),
     merkleTree: phase1MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
