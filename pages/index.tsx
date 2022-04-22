@@ -29,8 +29,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const getuserMintDetails = async () => {
-      const { ethereum } = window
-
       await Axios.get('/api/claimproof', {
         params: { address: address },
       })
@@ -41,7 +39,7 @@ const Home: NextPage = () => {
     }
     console.log('getuserMintDetails', userMintDetails)
     getuserMintDetails()
-  }, [address])
+  }, [address, userMintDetails])
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-black text-white">
