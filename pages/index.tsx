@@ -18,7 +18,7 @@ interface IuserMintDetails {
 
 const Home: NextPage = () => {
   const { address } = useWeb3Context()
-  console.log('address', address)
+  console.log('im rerendering')
 
   const [userMintDetails, setuserMintDetails] = useState<IuserMintDetails>({
     userPhase: '',
@@ -37,9 +37,8 @@ const Home: NextPage = () => {
         })
         .catch((err) => console.log(err))
     }
-    console.log('getuserMintDetails', userMintDetails)
     getuserMintDetails()
-  }, [address, userMintDetails])
+  }, [address])
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-black text-white">
