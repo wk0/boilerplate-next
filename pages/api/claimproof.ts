@@ -37,6 +37,7 @@ function getProofs(address: any) {
   )
   const proofs = activeMintPhase?.merkleTree?.getHexProof(leaf)
   return {
+    phase: activeMintPhase.name,
     allowedMints,
     pricePerToken: activeMintPhase.pricePerToken.toString(),
     proofs,
@@ -44,8 +45,6 @@ function getProofs(address: any) {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('req', req.query)
   const proof = getProofs(req.query?.address)
-  console.log('proof', proof)
   res.status(200).json(proof)
 }
