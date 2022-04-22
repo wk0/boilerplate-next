@@ -1,32 +1,14 @@
-import Axios from 'axios'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
-import { useWeb3Context } from '../context'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useWeb3Context } from '../context'
 import abi from '../data/abi.json'
-import Link from 'next/link'
 
-export const MintButton = ({}) => {
-  const [mintAmount, setMintAmount] = useState(0)
-  const [proof, setProof] = useState(null)
+export const MintButton = ({ userMintDetails, mintAmount, setMintAmount }) => {
   const { provider } = useWeb3Context()
   const contractAddress = '0x4d94E40DF0fa4237DaAaB0D69Fbe0Da9e69aC9A6'
   const [txnHash, setTxnHash] = useState(null)
   const [status, setStatus] = useState('Mint')
-  console.log('proof', proof)
-  useEffect(() => {
-    const getProof = async () => {
-      const accounts = await ethereum.request({ method: 'eth_accounts' })
-      await Axios.get('/api/claimproof', {
-        params: { address: accounts[0] },
-      })
-        .then((res) => {
-          setProof(res.data), setMintAmount(res.data.allowedMints)
-        })
-        .catch((err) => console.log(err))
-    }
-    getProof()
-  }, [])
 
   const mint = async () => {
     // Check if wallet is connected
@@ -35,7 +17,7 @@ export const MintButton = ({}) => {
       return
     }
 
-    if (!proof) {
+    if (!userMintDetails) {
       toast.error('You are not able to mint during this mint phase')
       return
     }
@@ -48,8 +30,8 @@ export const MintButton = ({}) => {
         const fcContract = new ethers.Contract(contractAddress, abi.abi, signer)
         let claimTx = await fcContract.claim(
           mintAmount,
-          proof.allowedMints,
-          proof.proofs,
+          userMintDetails.allowedMints,
+          userMintDetails.proofs,
           { value: 0, gasLimit: 2000000 }
         )
         setTxnHash(claimTx.hash)
