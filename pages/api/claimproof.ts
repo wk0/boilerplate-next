@@ -45,6 +45,6 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const proof = getProofs(req.query?.address);
+  const proof = getProofs((req.query?.address as string)?.toLowerCase());
   res.status(200).json(proof);
 }

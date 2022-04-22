@@ -30,23 +30,23 @@ const mintPhases = [
     pricePerToken: parseUnits('0', 'ether'),
     merkleTree: phase1MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
-    allowedMints: Object.fromEntries(phase1AccessList),
+    allowedMints: Object.fromEntries(phase1AccessList.map((x) => [x[0].toLowerCase(), x[1]])),
   },
 
   {
     startTimestamp: new Date('2022-04-23T00:00:00').getTime(),
     pricePerToken: parseUnits('0.001', 'ether'),
     merkleTree: phase2MerkleTree,
-    merkleRoot: phase1MerkleTree.getHexRoot(),
-    allowedMints: Object.fromEntries(phase2AccessList),
+    merkleRoot: phase2MerkleTree.getHexRoot(),
+    allowedMints: Object.fromEntries(phase2AccessList.map((x) => [x[0].toLowerCase(), x[1]])),
   },
 
   {
     startTimestamp: new Date('2022-04-24T00:00:00').getTime(),
     pricePerToken: parseUnits('0.002', 'ether'),
     merkleTree: phase3MerkleTree,
-    merkleRoot: phase1MerkleTree.getHexRoot(),
-    allowedMints: Object.fromEntries(phase3AccessList),
+    merkleRoot: phase3MerkleTree.getHexRoot(),
+    allowedMints: Object.fromEntries(phase3AccessList.map((x) => [x[0].toLowerCase(), x[1]])),
   },
 
   {
