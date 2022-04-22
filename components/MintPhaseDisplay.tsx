@@ -1,7 +1,16 @@
-type MintPhaseDisplayProps = {
-  phase: string | number
+type MintPhaseDisplayPropz = {
+  currentPhase: string
+  userPhase: string
 }
 
-export const MintPhaseDisplay = ({ phase }: MintPhaseDisplayProps) => (
-  <div>Phase: {phase ? phase : 'Not minting right now..'}</div>
+export const MintPhaseDisplay = ({
+  currentPhase,
+  userPhase,
+}: MintPhaseDisplayPropz) => (
+  <div className="">
+    <div>Phase: {currentPhase ? currentPhase : 'Not minting right now..'}</div>
+    <div className="">
+      Your phase: {userPhase ? userPhase : 'Not minting right now..'}
+    </div>
+  </div>
 )

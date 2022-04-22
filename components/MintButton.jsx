@@ -1,14 +1,43 @@
 import { ethers } from 'ethers'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useWeb3Context } from '../context'
 import abi from '../data/abi.json'
 
-export const MintButton = ({ userMintDetails, mintAmount, setMintAmount }) => {
+export const MintButton = ({ userMintDetails }) => {
   const { provider } = useWeb3Context()
   const contractAddress = '0x4d94E40DF0fa4237DaAaB0D69Fbe0Da9e69aC9A6'
   const [txnHash, setTxnHash] = useState(null)
   const [status, setStatus] = useState('Mint')
+  // const [numberMinted, setNumberMinted] = useState(0)
+  const [mintQuantity, setMintQuantity] = useState(0)
+  const [remainingMints, setRemainingMints] = useState(0)
+  useEffect(() => {
+    if (!provider) {
+      return
+    }
+    const getRemainingMints = async () => {
+      const currentProvider = new ethers.providers.Web3Provider(provider)
+      const contract = new ethers.Contract(
+        contractAddress,
+        abi.abi,
+        currentProvider
+      )
+      const mintedAmount = await contract.functions.balanceOf(
+        '0x8Bdd36BcC736806AEc967810513C27c9Da5EE8B3'
+      )
+      // in case we get mintedAmount before userMintDetails, set to 0 instead of calculating a negative number
+      if (userMintDetails.allowedMints === 0) {
+        setMintQuantity(0)
+      } else {
+        const remainingMints =
+          userMintDetails.allowedMints - Number(mintedAmount)
+        setMintQuantity(remainingMints)
+        setRemainingMints(remainingMints)
+      }
+    }
+    getRemainingMints()
+  }, [provider, userMintDetails])
 
   const mint = async () => {
     // Check if wallet is connected
@@ -59,10 +88,13 @@ export const MintButton = ({ userMintDetails, mintAmount, setMintAmount }) => {
       <div>
         <input
           type="number"
+          max={remainingMints}
           placeholder="Enter amount"
-          value={mintAmount}
+          value={mintQuantity}
+          step="1"
+          min="0"
           onChange={(e) => {
-            setMintAmount(e.target.value)
+            setMintQuantity(e.target.value)
           }}
         />
         <button

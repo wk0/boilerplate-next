@@ -7,7 +7,7 @@ import { MintButton } from '../components/MintButton'
 import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
 
 interface IuserMintDetails {
-  phase: string
+  userPhase: string
   allowedMints: number
   pricePerToken: number
   proofs: Array<string>
@@ -15,7 +15,7 @@ interface IuserMintDetails {
 
 const Home: NextPage = () => {
   const [userMintDetails, setuserMintDetails] = useState<IuserMintDetails>({
-    phase: '',
+    userPhase: '',
     allowedMints: 0,
     pricePerToken: 0,
     proofs: [],
@@ -28,12 +28,14 @@ const Home: NextPage = () => {
         params: { address: accounts[0] },
       })
         .then((res) => {
-          setuserMintDetails(res.data), setMintAmount(res.data.allowedMints)
+          setuserMintDetails(res.data.mintDetails),
+            setMintAmount(res.data.mintDetails.allowedMints)
         })
         .catch((err) => console.log(err))
     }
     getuserMintDetails()
   }, [])
+
   return (
     <div className="flex h-screen flex-col">
       <Head>
@@ -44,7 +46,7 @@ const Home: NextPage = () => {
         <Web3Button />
       </div>
 
-      <PhaseAndCountdownDisplay userPhase={userMintDetails.phase} />
+      <PhaseAndCountdownDisplay userPhase={userMintDetails.userPhase} />
       <div className="mx-auto mt-24">
         <MintButton
           userMintDetails={userMintDetails}
