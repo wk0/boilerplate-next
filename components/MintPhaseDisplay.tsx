@@ -1,4 +1,10 @@
-export const MintPhaseDisplay = ({ currentPhase, userPhase }) => {
+export const MintPhaseDisplay = ({
+  currentPhase,
+  userPhase,
+}: {
+  currentPhase: string
+  userPhase: string
+}) => {
   const phases = ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Public']
   return (
     <div className="mx-4 flex ">

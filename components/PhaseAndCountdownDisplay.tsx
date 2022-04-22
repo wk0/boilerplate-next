@@ -11,8 +11,11 @@ export const PhaseAndCountdownDisplay = ({ userPhase }: props) => {
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      <MintPhaseDisplay currentPhase={currentPhaseName} userPhase={userPhase} />
-      {currentPhaseName === 'Public' ? '' : <Countdown time={countdown} />}
+      <MintPhaseDisplay
+        currentPhase={`${currentPhaseName}`}
+        userPhase={userPhase}
+      />
+      {currentPhaseName === 'Public' ? '' : <Countdown time={`${countdown}`} />}
     </div>
   )
 }

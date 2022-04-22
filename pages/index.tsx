@@ -25,6 +25,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const getuserMintDetails = async () => {
+      const { ethereum } = window
       const accounts = await ethereum.request({ method: 'eth_accounts' })
       await Axios.get('/api/claimproof', {
         params: { address: accounts[0] },
