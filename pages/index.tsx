@@ -1,14 +1,8 @@
-import Axios from 'axios'
-import { ethers } from 'ethers'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 import { Web3Button } from '../components'
-import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
-import { useWeb3Context } from '../context'
-import abi from './abi.json'
 import { MintButton } from '../components/MintButton'
-const { formatUnits } = ethers.utils
+import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
 
 const Home: NextPage = () => {
   return (
@@ -20,8 +14,11 @@ const Home: NextPage = () => {
       <div className="flex w-full justify-end">
         <Web3Button />
       </div>
+
       <PhaseAndCountdownDisplay />
-      <MintButton />
+      <div className="mx-auto mt-24">
+        <MintButton />
+      </div>
     </div>
   )
 }

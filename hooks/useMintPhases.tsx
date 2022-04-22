@@ -40,9 +40,9 @@ const determineMintPhaseIndex = () => {
 
 // Returns mint phases objects, current mintphase, and time to remaining mintphase
 export const useMintPhases = () => {
-  const [currentPhaseName, setCurrentPhaseName] = useState('')
+  const [currentPhaseName, setCurrentPhaseName] = useState('Loading...')
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState<number>(0)
-  const [countdown, setCountdown] = useState<string>('')
+  const [countdown, setCountdown] = useState<string>('Loading...')
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentPhaseIndex(determineMintPhaseIndex())
