@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { Web3Button } from '../components'
 import { MintButton } from '../components/MintButton'
 import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
+import logo from '../assets/logo.png'
+import Image from 'next/image'
 
 interface IuserMintDetails {
   userPhase: string
@@ -37,13 +39,18 @@ const Home: NextPage = () => {
   }, [])
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col items-center justify-center bg-black text-white">
       <Head>
         <title>Fear City Mint</title>
         <meta name="description" content="Boilerplate for Web3 dApp" />
       </Head>
-      <div className="flex w-full justify-end">
+
+      <div className="absolute top-4 right-4">
         <Web3Button />
+      </div>
+
+      <div className="w-[200px]">
+        <Image src={logo} alt="logo" />
       </div>
 
       <PhaseAndCountdownDisplay userPhase={userMintDetails.userPhase} />

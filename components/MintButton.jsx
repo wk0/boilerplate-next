@@ -96,9 +96,11 @@ export const MintButton = ({ userMintDetails }) => {
           onChange={(e) => {
             setMintQuantity(e.target.value)
           }}
+          // background grey
+          className="appearance-none bg-gray-700 "
         />
         <button
-          className="mx-auto rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+          className="mx-auto rounded bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-400"
           onClick={() => {
             mint()
           }}
