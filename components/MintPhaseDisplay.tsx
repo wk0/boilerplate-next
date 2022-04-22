@@ -1,12 +1,4 @@
-type MintPhaseDisplayPropz = {
-  currentPhase: string
-  userPhase: string
-}
-
-export const MintPhaseDisplay = ({
-  currentPhase,
-  userPhase,
-}: MintPhaseDisplayPropz) => {
+export const MintPhaseDisplay = ({ currentPhase, userPhase }) => {
   const phases = ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Public']
   return (
     <div className="mx-4 flex ">
