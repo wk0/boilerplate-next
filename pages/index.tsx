@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Web3Button } from '../components'
 import { MintButton } from '../components/MintButton'
 import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
+import { useWeb3Context } from '../context'
 import logo from '../assets/logo.png'
 import Image from 'next/image'
 
@@ -16,6 +17,9 @@ interface IuserMintDetails {
 }
 
 const Home: NextPage = () => {
+  const { address } = useWeb3Context()
+  console.log('address', address)
+
   const [userMintDetails, setuserMintDetails] = useState<IuserMintDetails>({
     userPhase: '',
     allowedMints: 0,
@@ -26,17 +30,18 @@ const Home: NextPage = () => {
   useEffect(() => {
     const getuserMintDetails = async () => {
       const { ethereum } = window
-      const accounts = await ethereum.request({ method: 'eth_accounts' })
+
       await Axios.get('/api/claimproof', {
-        params: { address: accounts[0] },
+        params: { address: address },
       })
         .then((res) => {
           setuserMintDetails(res.data.mintDetails)
         })
         .catch((err) => console.log(err))
     }
+    console.log('getuserMintDetails', userMintDetails)
     getuserMintDetails()
-  }, [])
+  }, [address])
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-black text-white">

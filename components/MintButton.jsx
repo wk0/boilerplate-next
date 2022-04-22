@@ -58,7 +58,7 @@ export const MintButton = ({ userMintDetails }) => {
       if (ethereum) {
         const fcContract = new ethers.Contract(contractAddress, abi.abi, signer)
         let claimTx = await fcContract.claim(
-          mintAmount,
+          mintQuantity,
           userMintDetails.allowedMints,
           userMintDetails.proofs,
           { value: 0, gasLimit: 2000000 }

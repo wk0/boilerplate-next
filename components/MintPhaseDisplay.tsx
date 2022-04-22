@@ -6,6 +6,7 @@ export const MintPhaseDisplay = ({
   userPhase: string
 }) => {
   const phases = ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Public']
+
   return (
     <div className="mx-4 flex ">
       {phases.map((phase, index) => {
