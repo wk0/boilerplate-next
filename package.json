@@ -45,7 +45,6 @@
     "@types/testing-library__react": "^10.2.0",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "autoprefixer": "^10.4.2",
-    "cypress": "^9.5.0",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
     "eslint-config-prettier": "^8.3.0",
