@@ -11,7 +11,7 @@ export function Web3Button() {
   const Button = ({ callback }: ButtonProps) => {
     return callback ? (
       <button
-        className="group m-4 rounded-lg bg-black py-2 px-4 font-bold text-white hover:bg-gray-700"
+        className="group m-4 rounded-lg bg-green-600 py-2 px-4 font-bold text-white hover:bg-gray-700"
         onClick={callback}
       >
         {web3Provider ? (

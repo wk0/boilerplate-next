@@ -1,82 +1,62 @@
-import { useState, useEffect } from 'react'
+import Axios from 'axios'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 import { Web3Button } from '../components'
-import { useWeb3Context } from '../context'
-import abi from './abi.json'
-import { ethers } from 'ethers'
-import Axios from 'axios'
+import { MintButton } from '../components/MintButton'
+import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
+import logo from '../assets/logo.png'
+import Image from 'next/image'
+
+interface IuserMintDetails {
+  userPhase: string
+  allowedMints: number
+  pricePerToken: number
+  proofs: Array<string>
+}
 
 const Home: NextPage = () => {
-  const [name, setName] = useState('World')
-  const { provider } = useWeb3Context()
-  const [status, setStatus] = useState('Waiting for interaction...')
-  const contractAddress = '0x709e99C713d57E60d1Cf4A9E271989f1718780Ee'
-
-  const wave = async () => {
-    try {
-      const currentProvider = new ethers.providers.Web3Provider(provider)
-      console.log('currentProvider', currentProvider)
-      const { ethereum } = window
-      const signer = currentProvider.getSigner()
-
-      if (ethereum) {
-        const wavePortalContract = new ethers.Contract(
-          contractAddress,
-          abi.abi,
-          signer
-        )
-
-        let count = await wavePortalContract.getTotalWaves()
-        console.log('Retrieved total wave count...', count.toNumber())
-
-        /*
-         * Execute the actual wave from your smart contract
-         */
-        const waveTxn = await wavePortalContract.wave()
-
-        setStatus('Miners are at work...')
-        await waveTxn.wait()
-        count = await wavePortalContract.getTotalWaves()
-        console.log('Retrieved total wave count...', count.toNumber())
-        setStatus(`Total Contract Interactions: ${count.toNumber()}`)
-      } else {
-        console.log("Ethereum object doesn't exist!")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
+  const [userMintDetails, setuserMintDetails] = useState<IuserMintDetails>({
+    userPhase: '',
+    allowedMints: 0,
+    pricePerToken: 0,
+    proofs: [],
+  })
+  const [mintAmount, setMintAmount] = useState(0)
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await Axios.get('/api/hello')
-      if (response.status === 200 && response) {
-        setName(response.data.name)
-      }
+    const getuserMintDetails = async () => {
+      const accounts = await ethereum.request({ method: 'eth_accounts' })
+      await Axios.get('/api/claimproof', {
+        params: { address: accounts[0] },
+      })
+        .then((res) => {
+          setuserMintDetails(res.data.mintDetails),
+            setMintAmount(res.data.mintDetails.allowedMints)
+        })
+        .catch((err) => console.log(err))
     }
-    fetchData()
+    getuserMintDetails()
   }, [])
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col items-center justify-center bg-black text-white">
       <Head>
-        <title>Web3 Next-Boilerplate</title>
+        <title>Fear City Mint</title>
         <meta name="description" content="Boilerplate for Web3 dApp" />
       </Head>
-      <div className="flex w-full justify-end">
+
+      <div className="absolute top-4 right-4">
         <Web3Button />
       </div>
 
-      <button
-        className="mx-auto rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-        onClick={() => {
-          wave()
-        }}
-      >
-        Interact with the Contract, {name}!
-      </button>
-      <div className="mx-auto">{status}</div>
+      <div className="w-[200px]">
+        <Image src={logo} alt="logo" />
+      </div>
+
+      <PhaseAndCountdownDisplay userPhase={userMintDetails.userPhase} />
+      <div className="mx-auto mt-24">
+        <MintButton userMintDetails={userMintDetails} />
+      </div>
     </div>
   )
 }
