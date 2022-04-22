@@ -48,11 +48,7 @@ const Home: NextPage = () => {
 
       <PhaseAndCountdownDisplay userPhase={userMintDetails.userPhase} />
       <div className="mx-auto mt-24">
-        <MintButton
-          userMintDetails={userMintDetails}
-          mintAmount={mintAmount}
-          setMintAmount={setMintAmount}
-        />
+        <MintButton userMintDetails={userMintDetails} />
       </div>
     </div>
   )
