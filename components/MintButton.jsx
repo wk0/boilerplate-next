@@ -5,7 +5,7 @@ import { useWeb3Context } from '../context'
 import abi from '../data/abi.json'
 
 export const MintButton = ({ userMintDetails }) => {
-  const { provider } = useWeb3Context()
+  const { provider, address } = useWeb3Context()
   const contractAddress = '0x4d94E40DF0fa4237DaAaB0D69Fbe0Da9e69aC9A6'
   const [txnHash, setTxnHash] = useState(null)
   const [status, setStatus] = useState('Mint')
@@ -23,9 +23,7 @@ export const MintButton = ({ userMintDetails }) => {
         abi.abi,
         currentProvider
       )
-      const mintedAmount = await contract.functions.balanceOf(
-        '0x8Bdd36BcC736806AEc967810513C27c9Da5EE8B3'
-      )
+      const mintedAmount = await contract.functions.numberMinted(address)
       // in case we get mintedAmount before userMintDetails, set to 0 instead of calculating a negative number
       if (userMintDetails.allowedMints === 0) {
         setMintQuantity(0)
@@ -37,7 +35,7 @@ export const MintButton = ({ userMintDetails }) => {
       }
     }
     getRemainingMints()
-  }, [provider, userMintDetails])
+  }, [address, provider, userMintDetails.allowedMints])
 
   const mint = async () => {
     // Check if wallet is connected
@@ -46,7 +44,7 @@ export const MintButton = ({ userMintDetails }) => {
       return
     }
 
-    if (!userMintDetails) {
+    if (userMintDetails.proofs.length === 0) {
       toast.error('You are not able to mint during this mint phase')
       return
     }
@@ -85,6 +83,8 @@ export const MintButton = ({ userMintDetails }) => {
 
   return (
     <div className="flex flex-col">
+      <div>Your max mints: {userMintDetails.allowedMints}</div>
+      <div>Your remaining mints: {remainingMints}</div>
       <div>
         <input
           type="number"

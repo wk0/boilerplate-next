@@ -18,7 +18,6 @@ interface IuserMintDetails {
 
 const Home: NextPage = () => {
   const { address } = useWeb3Context()
-  console.log('im rerendering')
 
   const [userMintDetails, setuserMintDetails] = useState<IuserMintDetails>({
     userPhase: '',
