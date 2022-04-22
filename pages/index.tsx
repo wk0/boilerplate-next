@@ -30,7 +30,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const getuserMintDetails = async () => {
       await Axios.get('/api/claimproof', {
-        params: { address: address },
+        params: { address: address?.toLowerCase() },
       })
         .then((res) => {
           setuserMintDetails(res.data.mintDetails)
