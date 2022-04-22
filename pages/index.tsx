@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     pricePerToken: 0,
     proofs: [],
   })
-  const [mintAmount, setMintAmount] = useState(0)
+
   useEffect(() => {
     const getuserMintDetails = async () => {
       const accounts = await ethereum.request({ method: 'eth_accounts' })
@@ -30,8 +30,7 @@ const Home: NextPage = () => {
         params: { address: accounts[0] },
       })
         .then((res) => {
-          setuserMintDetails(res.data.mintDetails),
-            setMintAmount(res.data.mintDetails.allowedMints)
+          setuserMintDetails(res.data.mintDetails)
         })
         .catch((err) => console.log(err))
     }
