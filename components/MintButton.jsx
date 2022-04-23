@@ -59,13 +59,17 @@ export const MintButton = ({ userMintDetails }) => {
           mintQuantity,
           userMintDetails.allowedMints,
           userMintDetails.proofs,
-          { value: 0, gasLimit: 2000000 }
+          {
+            value: userMintDetails.pricePerToken * mintQuantity,
+            gasLimit: 148000 + mintQuantity * 2000,
+          }
         )
         setTxnHash(claimTx.hash)
         setStatus('Minting...')
         let tx = await claimTx.wait()
         setTxnHash(tx.hash)
         setStatus('Success!')
+        setRemainingMints(remainingMints - mintQuantity)
         setTimeout(() => {
           setStatus('Mint')
         }, 5000)

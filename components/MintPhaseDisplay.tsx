@@ -5,7 +5,7 @@ export const MintPhaseDisplay = ({
   currentPhase: string
   userPhase: string
 }) => {
-  const phases = ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Public']
+  const phases = ['Phase 1', 'Phase 2', 'Phase 3', 'Public']
 
   return (
     <div className="flex flex-col text-center">
