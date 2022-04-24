@@ -104,10 +104,11 @@ export const MintButton = ({ userMintDetails }) => {
           className="appearance-none bg-gray-700 "
         />
         <button
-          className="mx-auto rounded bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-400"
+          className="mx-auto rounded bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-400 disabled:opacity-60"
           onClick={() => {
             mint()
           }}
+          disabled={remainingMints === 0}
         >
           {status}
         </button>
