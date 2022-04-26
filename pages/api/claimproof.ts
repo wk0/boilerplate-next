@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 const { keccak256, defaultAbiCoder } = ethers.utils
 import mintPhases from '../../data/phases'
 
-function getUserMintDetails(address: any) {
+function getUserMintDetails(address: string) {
   // find the phase in mintPhases that contains the address
   const usersPhase = mintPhases.find((phase) => {
     return phase.allowedMints[address] != null
@@ -30,7 +30,7 @@ function getActiveMintPhase() {
   return null
 }
 
-function getMintDetails(address: any) {
+function getMintDetails(address: string) {
   const activeMintPhase = getActiveMintPhase()
   const userMintDetails = getUserMintDetails(address)
 
@@ -73,7 +73,7 @@ function getMintDetails(address: any) {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const mintDetails = getMintDetails(req.query?.address)
+    const mintDetails = getMintDetails(req.query?.address.toString())
     res.status(200).json({ mintDetails })
   } catch (err) {
     res

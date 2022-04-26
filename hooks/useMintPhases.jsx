@@ -1,22 +1,27 @@
 import { useEffect, useState } from 'react'
 import mintPhases from '../data/phases'
 
-const calculateTimeLeft = (countDownDate: number) => {
+const calculateTimeLeft = (countDownDate) => {
   const now = new Date().getTime()
 
   // Find the distance between now and the count down date
   const distance = countDownDate - now
 
   // Time calculations for days, hours, minutes and seconds
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-  const hours = Math.floor(
+  const DAYS = Math.floor(distance / (1000 * 60 * 60 * 24))
+  const HOURS = Math.floor(
     (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   )
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+  const MINS = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+  const SECS = Math.floor((distance % (1000 * 60)) / 1000)
 
   // Display the result in the element with id="demo"
-  const countdown = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's '
+  const countdown = {
+    DAYS,
+    HOURS,
+    MINS,
+    SECS,
+  }
   return countdown
 }
 
@@ -35,18 +40,20 @@ const determineMintPhaseIndex = () => {
       return false
     }
   })
+
   return phaseIndex
 }
 
 // Returns mint phases objects, current mintphase, and time to remaining mintphase
 export const useMintPhases = () => {
-  const [currentPhaseName, setCurrentPhaseName] = useState<string>('Loading...')
-  const [currentPhaseIndex, setCurrentPhaseIndex] = useState<number>(0)
-  const [countdown, setCountdown] = useState<string>('Loading...')
+  const [currentPhaseName, setCurrentPhaseName] = useState('')
+  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
+  const [countdown, setCountdown] = useState('')
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentPhaseIndex(determineMintPhaseIndex())
       setCurrentPhaseName(mintPhases[currentPhaseIndex]?.name)
+
       if (currentPhaseIndex === mintPhases.length - 1) {
         // If we're in the last phase, no more countdown
         setCountdown('')

@@ -11,3 +11,10 @@
     height: 100%;
   }
 }
+
+@font-face {
+  font-family: 'lovelo'; /*Can be any text*/
+  font-weight: 400;
+  src: local('Lovelo-Black'),
+    url('../assets/Lovelo-Black.ttf') format('truetype');
+}

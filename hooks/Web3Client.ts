@@ -14,12 +14,13 @@ import {
 import { toast } from 'react-toastify'
 
 const providerOptions = {
-  coinbasewallet: {
+  walletlink: {
     package: CoinbaseWalletSDK, // Required
     options: {
       appName: 'Feat City Mint', // Required
       rpc: {
         5: process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI,
+        1: process.env.NEXT_PUBLIC_ALCHEMY_KEY_MAINNET,
       },
       chainId: 1, // Optional. It defaults to 1 if not provided
       darkMode: false, // Optional. Use dark theme, defaults to false
@@ -30,6 +31,7 @@ const providerOptions = {
     options: {
       rpc: {
         5: process.env.NEXT_PUBLIC_ALCHEMY_KEY_GOERLI,
+        1: process.env.NEXT_PUBLIC_ALCHEMY_KEY_MAINNET,
       },
     },
   },

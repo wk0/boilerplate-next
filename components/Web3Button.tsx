@@ -11,16 +11,22 @@ export function Web3Button() {
   const Button = ({ callback }: ButtonProps) => {
     return callback ? (
       <button
-        className="group m-4 rounded-lg bg-green-600 py-2 px-4 font-bold text-white hover:bg-gray-700"
+        className="group h-[52px] rounded-lg bg-[#00ff3d] py-2 px-4 font-bold text-black hover:bg-green-600"
         onClick={callback}
       >
         {web3Provider ? (
           <div className="">
-            <span className="group-hover:hidden">{`${address?.substring(
-              0,
-              5
-            )}...${address?.substring(address.length - 4)}`}</span>
-            <span className="hidden group-hover:block">Disconnect?</span>
+            {address ? (
+              <>
+                <span className="group-hover:hidden">{` ${address?.substring(
+                  0,
+                  5
+                )}...${address?.substring(address.length - 4)}`}</span>
+                <span className="hidden group-hover:block">Disconnect?</span>
+              </>
+            ) : (
+              <span>Connect Wallet</span>
+            )}
           </div>
         ) : (
           'Connect Wallet'

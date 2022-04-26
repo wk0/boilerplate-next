@@ -4,9 +4,9 @@ import { toast } from 'react-toastify'
 import { useWeb3Context } from '../context'
 import abi from '../data/abi.json'
 
-export const MintButton = ({ userMintDetails }) => {
+export const MintButton = ({ userMintDetails, currentPhaseName }) => {
   const { provider, address } = useWeb3Context()
-  const contractAddress = '0x4d94E40DF0fa4237DaAaB0D69Fbe0Da9e69aC9A6'
+  const contractAddress = '0x4d94E40DF0fa4237DaAaB0D69Fbe0Da9e69aC9A6' // TODO swap for mainnet address
   const [txnHash, setTxnHash] = useState(null)
   const [status, setStatus] = useState('Mint')
   // const [numberMinted, setNumberMinted] = useState(0)
@@ -25,17 +25,17 @@ export const MintButton = ({ userMintDetails }) => {
       )
       const mintedAmount = await contract.functions.numberMinted(address)
       // in case we get mintedAmount before userMintDetails, set to 0 instead of calculating a negative number
-      if (userMintDetails.allowedMints === 0) {
+      if (userMintDetails?.allowedMints === 0) {
         setMintQuantity(0)
       } else {
         const remainingMints =
-          userMintDetails.allowedMints - Number(mintedAmount)
+          userMintDetails?.allowedMints - Number(mintedAmount)
         setMintQuantity(remainingMints)
         setRemainingMints(remainingMints)
       }
     }
     getRemainingMints()
-  }, [address, provider, userMintDetails.allowedMints])
+  }, [address, provider, userMintDetails?.allowedMints])
 
   const mint = async () => {
     // Check if wallet is connected
@@ -57,7 +57,7 @@ export const MintButton = ({ userMintDetails }) => {
         const fcContract = new ethers.Contract(contractAddress, abi.abi, signer)
         let claimTx = await fcContract.claim(
           mintQuantity,
-          userMintDetails.allowedMints,
+          userMintDetails?.allowedMints,
           userMintDetails.proofs,
           {
             value: userMintDetails.pricePerToken * mintQuantity,
@@ -85,11 +85,47 @@ export const MintButton = ({ userMintDetails }) => {
     }
   }
 
+  const renderMintMessage = () => {
+    console.log(userMintDetails)
+    if (userMintDetails.userPhase === currentPhaseName) {
+      return (
+        <div className="text-[#00ff3d]">MINTS AVAILABLE: {remainingMints}</div>
+      )
+    } else if (
+      userMintDetails.allowedMints > 0 &&
+      userMintDetails.userPhase !== currentPhaseName &&
+      currentPhaseName !== 'PUBLIC'
+    ) {
+      return (
+        <div className="mb-6 flex justify-between">
+          <div>
+            <span className="text-white">YOUR MINT PHASE: </span>
+            <span className="text-[#00ff3d]">{userMintDetails.userPhase}</span>
+          </div>
+          <div className="ml-8">
+            <span className="text-white">MINTS AVAILABLE: </span>
+            <span className="text-[#00ff3d]">
+              {userMintDetails.allowedMints}
+            </span>
+          </div>
+        </div>
+      )
+    } else if (userMintDetails.userPhase == 'No Phase') {
+      return (
+        <div className="mb-2 text-gray-300">
+          YOU ARE NOT ON THE ALLOWLIST. PLEASE WAIT FOR THE PUBLIC SALE.
+        </div>
+      )
+    } else {
+      return null
+    }
+  }
+
   return (
-    <div className="flex flex-col">
-      <div>Your max mints: {userMintDetails.allowedMints}</div>
-      <div>Your remaining mints: {remainingMints}</div>
-      <div>
+    <div className="flex flex-col items-center justify-center">
+      <div>{renderMintMessage()}</div>
+      <div className="flex">
+        {' '}
         <input
           type="number"
           max={remainingMints}
@@ -101,14 +137,18 @@ export const MintButton = ({ userMintDetails }) => {
             setMintQuantity(e.target.value)
           }}
           // background grey
-          className="appearance-none bg-gray-700 "
+          className="mr-2 appearance-none rounded-md text-black"
         />
         <button
-          className="mx-auto rounded bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-400 disabled:opacity-60"
+          className="mx-auto h-[52px] w-[200px] rounded-md bg-[#00ff3d] py-2 px-4 font-bold text-black hover:bg-green-400 disabled:bg-gray-300 disabled:opacity-70"
           onClick={() => {
             mint()
           }}
-          disabled={remainingMints === 0}
+          disabled={
+            mintQuantity === 0 ||
+            (userMintDetails.userPhase !== currentPhaseName &&
+              currentPhaseName !== 'PUBLIC')
+          }
         >
           {status}
         </button>
