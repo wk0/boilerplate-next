@@ -39,9 +39,13 @@ export const Minting = ({ currentPhaseName }: { currentPhaseName: string }) => {
           }
         })}
       </div>
-      <span className="whitespace-wrap mt-16 mb-8 text-lg text-[#00ff3d] sm:text-2xl">
-        CURRENT MINTING PHASE ENDS IN:
-      </span>
+      {currentPhaseName === 'PUBLIC' ? (
+        ''
+      ) : (
+        <span className="whitespace-wrap mt-16 mb-8 text-lg text-[#00ff3d] sm:text-2xl">
+          CURRENT MINTING PHASE ENDS IN:
+        </span>
+      )}
     </div>
   )
 }
