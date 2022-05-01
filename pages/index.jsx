@@ -29,7 +29,7 @@ const Home = () => {
         rpcUrls: provider.rpcUrl,
       })
       // get node env
-      const nodeEnv = process.env.NODE_ENV
+      const nodeEnv = process.env.NEXT_PUBLIC_NEXT_ENV
       if (nodeEnv === 'development') {
         setCorrectNetwork(chainId === '0x5')
       } else if (nodeEnv === 'production') {

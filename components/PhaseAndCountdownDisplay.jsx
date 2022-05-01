@@ -40,7 +40,7 @@ export const PhaseAndCountdownDisplay = ({
           ) : (
             <span className="mt-12 py-8 px-4 text-center text-red-600">
               {`Switch to ${
-                process.env.NODE_ENV === 'development'
+                process.env.NEXT_PUBLIC_NEXT_ENV === 'development'
                   ? 'Goerli Testnet'
                   : 'ETH Mainnet'
               } and refresh page to mint`}

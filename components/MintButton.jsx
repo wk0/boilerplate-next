@@ -187,7 +187,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       {txnHash ? (
         <a
           href={`https://${
-            process.env.NODE_ENV === 'development' ? 'goerli.' : ''
+            process.env.NEXT_PUBLIC_NEXT_ENV === 'development' ? 'goerli.' : ''
           }etherscan.io/tx/${txnHash}`}
           target="_blank"
           rel="noopener noreferrer"
