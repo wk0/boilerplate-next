@@ -60,10 +60,10 @@ const Home = () => {
         }
       }
     }
-    getTotalSupply()
     checkCorrectNetwork()
     if (isCorrectNetwork) {
       getuserMintDetails()
+      getTotalSupply()
     }
   }, [address, provider, provider?.rpcUrl, isCorrectNetwork])
 
