@@ -19,7 +19,7 @@ const phase3MerkleTree = generateMerkleTree(phase3AccessList)
 
 const mintPhases = [
   {
-    startTimestamp: new Date('2022-04-26T00:00:00').getTime(),
+    startTimestamp: new Date('2022-01-01T00:00:00').getTime(),
     pricePerToken: 0,
     name: 'PREMINT',
     merkleRoot: null,
@@ -27,7 +27,7 @@ const mintPhases = [
     allowedMints: 0,
   },
   {
-    startTimestamp: new Date('2022-04-26T10:00:00').getTime(),
+    startTimestamp: new Date('2022-05-01T21:30:00').getTime(),
     pricePerToken: parseUnits('0', 'ether'),
     merkleTree: phase1MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
@@ -37,18 +37,18 @@ const mintPhases = [
     ),
   },
   {
-    startTimestamp: new Date('2022-04-26T10:30:00').getTime(),
+    startTimestamp: new Date('2022-05-01T21:38:00').getTime(),
     pricePerToken: parseUnits('0.001', 'ether'),
     merkleTree: phase2MerkleTree,
-    name: 'ALLOWLIST',
     merkleRoot: phase2MerkleTree.getHexRoot(),
+    name: 'ALLOWLIST',
     allowedMints: Object.fromEntries(
       phase2AccessList.map((x) => [x[0].toLowerCase(), x[1]])
     ),
   },
 
   {
-    startTimestamp: new Date('2022-04-26T11:00:00').getTime(),
+    startTimestamp: new Date('2022-05-01T21:46:00').getTime(),
     pricePerToken: parseUnits('0.002', 'ether'),
     merkleTree: phase3MerkleTree,
     merkleRoot: phase3MerkleTree.getHexRoot(),
@@ -59,8 +59,8 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-04-26T11:30:00').getTime(),
-    pricePerToken: 0,
+    startTimestamp: new Date('2022-05-01T21:54:00').getTime(),
+    pricePerToken: parseUnits('0.003', 'ether'),
     merkleTree: null,
     merkleRoot: null,
     allowedMints: {},
