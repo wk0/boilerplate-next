@@ -38,7 +38,7 @@ export const PhaseAndCountdownDisplay = ({
               />
             </div>
           ) : (
-            <span className="mt-12 px-4 text-center text-red-600">
+            <span className="mt-12 py-8 px-4 text-center text-red-600">
               {`Switch to ${
                 process.env.NODE_ENV === 'development'
                   ? 'Goerli Testnet'
