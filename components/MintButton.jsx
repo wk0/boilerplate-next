@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useWeb3Context } from '../context'
 import abi from '../data/abi.json'
+import { contractAddress } from '../helpers'
 
 export const MintButton = ({ userMintDetails, currentPhaseName }) => {
   const { provider, address } = useWeb3Context()
-  const contractAddress = '0x4d94E40DF0fa4237DaAaB0D69Fbe0Da9e69aC9A6' // TODO swap for mainnet address
   const [txnHash, setTxnHash] = useState(null)
   const [status, setStatus] = useState('Mint')
-  // const [numberMinted, setNumberMinted] = useState(0)
   const [mintQuantity, setMintQuantity] = useState(0)
   const [remainingMints, setRemainingMints] = useState(0)
+
   useEffect(() => {
     if (!provider) {
       return
@@ -23,19 +23,36 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
         abi.abi,
         currentProvider
       )
-      const mintedAmount = await contract.functions.numberMinted(address)
+      let mintedAmount
+      if (currentPhaseName === 'PUBLIC') {
+        mintedAmount = await contract.functions.numberPurchased(address)
+      } else {
+        mintedAmount = await contract.functions.numberMinted(address)
+      }
+
       // in case we get mintedAmount before userMintDetails, set to 0 instead of calculating a negative number
       if (userMintDetails?.allowedMints === 0) {
         setMintQuantity(0)
+      } else if (currentPhaseName === 'PUBLIC') {
+        // Public mint allowance is 3.
+        const remainingMints = 3 - Number(mintedAmount)
+        setMintQuantity(remainingMints)
+        setRemainingMints(remainingMints)
       } else {
         const remainingMints =
           userMintDetails?.allowedMints - Number(mintedAmount)
-        setMintQuantity(remainingMints)
+        // this should never happen but adding it as a safeguard just in case.
+        if (remainingMints < 0) {
+          setMintQuantity(0)
+        } else {
+          setMintQuantity(remainingMints)
+        }
+
         setRemainingMints(remainingMints)
       }
     }
     getRemainingMints()
-  }, [address, provider, userMintDetails?.allowedMints])
+  }, [address, provider, userMintDetails?.allowedMints, currentPhaseName])
 
   const mint = async () => {
     // Check if wallet is connected
@@ -44,9 +61,11 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       return
     }
 
-    if (userMintDetails.proofs.length === 0) {
-      toast.error('You are not able to mint during this mint phase')
-      return
+    if (currentPhaseName !== 'PUBLIC' && currentPhaseName !== 'PREMINT') {
+      if (userMintDetails.proofs.length === 0) {
+        toast.error('You are not able to mint during this mint phase')
+        return
+      }
     }
 
     try {
@@ -55,15 +74,24 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       const signer = currentProvider.getSigner()
       if (ethereum) {
         const fcContract = new ethers.Contract(contractAddress, abi.abi, signer)
-        let claimTx = await fcContract.claim(
-          mintQuantity,
-          userMintDetails?.allowedMints,
-          userMintDetails.proofs,
-          {
+        let claimTx
+        if (currentPhaseName === 'PUBLIC') {
+          claimTx = await fcContract.purchase(mintQuantity, {
             value: userMintDetails.pricePerToken * mintQuantity,
             gasLimit: 148000 + mintQuantity * 2000,
-          }
-        )
+          })
+        } else {
+          claimTx = await fcContract.claim(
+            mintQuantity,
+            userMintDetails?.allowedMints,
+            userMintDetails.proofs,
+            {
+              value: userMintDetails.pricePerToken * mintQuantity,
+              gasLimit: 148000 + mintQuantity * 2000,
+            }
+          )
+        }
+
         setTxnHash(claimTx.hash)
         setStatus('Minting...')
         let tx = await claimTx.wait()
@@ -86,14 +114,16 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
   }
 
   const renderMintMessage = () => {
-    console.log(userMintDetails)
-    if (userMintDetails.userPhase === currentPhaseName) {
+    if (
+      userMintDetails?.userPhase === currentPhaseName ||
+      currentPhaseName === 'PUBLIC'
+    ) {
       return (
         <div className="text-[#00ff3d]">MINTS AVAILABLE: {remainingMints}</div>
       )
     } else if (
       userMintDetails.allowedMints > 0 &&
-      userMintDetails.userPhase !== currentPhaseName &&
+      userMintDetails?.userPhase !== currentPhaseName &&
       currentPhaseName !== 'PUBLIC'
     ) {
       return (
@@ -104,9 +134,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
           </div>
           <div className="ml-8">
             <span className="text-white">MINTS AVAILABLE: </span>
-            <span className="text-[#00ff3d]">
-              {userMintDetails.allowedMints}
-            </span>
+            <span className="text-[#00ff3d]">{remainingMints}</span>
           </div>
         </div>
       )
@@ -125,7 +153,6 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
     <div className="flex flex-col items-center justify-center">
       <div>{renderMintMessage()}</div>
       <div className="flex">
-        {' '}
         <input
           type="number"
           max={remainingMints}
@@ -134,7 +161,10 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
           step="1"
           min="0"
           onChange={(e) => {
-            setMintQuantity(e.target.value)
+            // only allow up to remaining mints
+            const quantity =
+              e.target.value > remainingMints ? remainingMints : e.target.value
+            setMintQuantity(quantity)
           }}
           // background grey
           className="mr-2 appearance-none rounded-md text-black"
@@ -156,10 +186,12 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
 
       {txnHash ? (
         <a
-          href={`https://etherscan.io/tx/${txnHash}`}
+          href={`https://${
+            process.env.NODE_ENV === 'development' ? 'goerli.' : ''
+          }etherscan.io/tx/${txnHash}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 underline"
+          className="mt-8 text-blue-500 underline"
         >{`View your transaction on Etherscan: ${txnHash?.substring(
           0,
           5

@@ -40,27 +40,26 @@ const determineMintPhaseIndex = () => {
       return false
     }
   })
-
   return phaseIndex
 }
 
 // Returns mint phases objects, current mintphase, and time to remaining mintphase
 export const useMintPhases = () => {
   const [currentPhaseName, setCurrentPhaseName] = useState('')
-  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
+  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(null)
   const [countdown, setCountdown] = useState('')
   useEffect(() => {
     const timer = setTimeout(() => {
-      setCurrentPhaseIndex(determineMintPhaseIndex())
+      const phaseIndex = determineMintPhaseIndex()
+      setCurrentPhaseIndex(phaseIndex)
       setCurrentPhaseName(mintPhases[currentPhaseIndex]?.name)
-
-      if (currentPhaseIndex === mintPhases.length - 1) {
-        // If we're in the last phase, no more countdown
+      if (phaseIndex === mintPhases.length - 1) {
+        // If we're in the last phase, don't show a countdown
         setCountdown('')
       } else {
         setCountdown(
           calculateTimeLeft(
-            new Date(mintPhases[currentPhaseIndex + 1].startTimestamp).getTime()
+            new Date(mintPhases[phaseIndex + 1].startTimestamp).getTime()
           )
         )
       }

@@ -15,6 +15,7 @@
     { "inputs": [], "name": "ApproveToCaller", "type": "error" },
     { "inputs": [], "name": "BalanceQueryForZeroAddress", "type": "error" },
     { "inputs": [], "name": "EncryptedUriNotSet", "type": "error" },
+    { "inputs": [], "name": "ExceedsPurchaseLimit", "type": "error" },
     { "inputs": [], "name": "InsufficientSupply", "type": "error" },
     { "inputs": [], "name": "InsufficientValue", "type": "error" },
     { "inputs": [], "name": "InvalidClaimProof", "type": "error" },
@@ -22,7 +23,10 @@
     { "inputs": [], "name": "MintPhasesOutOfOrder", "type": "error" },
     { "inputs": [], "name": "MintToZeroAddress", "type": "error" },
     { "inputs": [], "name": "MintZeroQuantity", "type": "error" },
+    { "inputs": [], "name": "NewOwnerIsNotAdmin", "type": "error" },
     { "inputs": [], "name": "NoActiveMintPhase", "type": "error" },
+    { "inputs": [], "name": "NotClaimPhase", "type": "error" },
+    { "inputs": [], "name": "NotPublicMintPhase", "type": "error" },
     { "inputs": [], "name": "OwnerQueryForNonexistentToken", "type": "error" },
     {
       "inputs": [],
@@ -154,31 +158,6 @@
       "inputs": [
         {
           "indexed": false,
-          "internalType": "uint64[]",
-          "name": "startTimestamps",
-          "type": "uint64[]"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256[]",
-          "name": "pricePerTokens",
-          "type": "uint256[]"
-        },
-        {
-          "indexed": false,
-          "internalType": "bytes32[]",
-          "name": "merkleRoots",
-          "type": "bytes32[]"
-        }
-      ],
-      "name": "MintPhaseUpdated2",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
           "internalType": "string",
           "name": "revealedURI",
           "type": "string"
@@ -287,7 +266,7 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "MintPhaseId",
+          "name": "mintPhaseId",
           "type": "uint256"
         },
         {
@@ -378,7 +357,7 @@
     },
     {
       "inputs": [
-        { "internalType": "uint256", "name": "quantity", "type": "uint256" },
+        { "internalType": "uint64", "name": "quantity", "type": "uint64" },
         {
           "internalType": "uint256",
           "name": "proofMaxQuantity",
@@ -492,7 +471,12 @@
           "name": "newRoyaltyReceiver",
           "type": "address"
         },
-        { "internalType": "uint16", "name": "newRoyaltyBps", "type": "uint16" }
+        { "internalType": "uint16", "name": "newRoyaltyBps", "type": "uint16" },
+        {
+          "internalType": "uint16",
+          "name": "newMaxPurchaseLimit",
+          "type": "uint16"
+        }
       ],
       "name": "initialize",
       "outputs": [],
@@ -513,6 +497,13 @@
       "inputs": [],
       "name": "isRevealed",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "maxPurchaseLimit",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -570,6 +561,15 @@
       "type": "function"
     },
     {
+      "inputs": [
+        { "internalType": "address", "name": "addr", "type": "address" }
+      ],
+      "name": "numberPurchased",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "owner",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -587,9 +587,25 @@
     },
     {
       "inputs": [],
+      "name": "primarySaleReceiver",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "proxiableUUID",
       "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint64", "name": "quantity", "type": "uint64" }
+      ],
+      "name": "purchase",
+      "outputs": [],
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -640,16 +656,6 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "to", "type": "address" },
-        { "internalType": "uint256", "name": "quantity", "type": "uint256" }
-      ],
-      "name": "safeMint",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
         { "internalType": "address", "name": "from", "type": "address" },
         { "internalType": "address", "name": "to", "type": "address" },
         { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
@@ -689,6 +695,13 @@
       "type": "function"
     },
     {
+      "inputs": [{ "internalType": "uint64", "name": "qty", "type": "uint64" }],
+      "name": "setMaxPurchaseLimit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "components": [
@@ -723,6 +736,19 @@
         { "internalType": "address", "name": "newOwner", "type": "address" }
       ],
       "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newPrimarySaleReceiver",
+          "type": "address"
+        }
+      ],
+      "name": "setPrimarySaleReceiver",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

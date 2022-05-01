@@ -11,16 +11,21 @@ export const PhaseAndCountdownDisplay = ({
 }) => {
   const [countdown, currentPhaseName] = useMintPhases()
   const { address } = useWeb3Context()
-  if (currentPhaseName === '') {
+
+  if (!currentPhaseName) {
     return <div className="text-4xl">Loading...</div>
+  }
+
+  const renderMintPhaseDisplay = () => {
+    if (currentPhaseName === 'PREMINT') {
+      return <Premint />
+    } else {
+      return <Minting currentPhaseName={currentPhaseName} />
+    }
   }
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      {currentPhaseName === 'PREMINT' ? (
-        <Premint />
-      ) : (
-        <Minting currentPhaseName={currentPhaseName} />
-      )}
+      {renderMintPhaseDisplay()}
       <Countdown time={countdown} />
 
       {address ? (
@@ -34,7 +39,11 @@ export const PhaseAndCountdownDisplay = ({
             </div>
           ) : (
             <span className="mt-12 px-4 text-center text-red-600">
-              Switch to ETH Mainnet and refresh page to mint
+              {`Switch to ${
+                process.env.NODE_ENV === 'development'
+                  ? 'Goerli Testnet'
+                  : 'ETH Mainnet'
+              } and refresh page to mint`}
             </span>
           )}
         </div>

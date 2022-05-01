@@ -6,18 +6,17 @@ import homebg from '../assets/homebg.png'
 import logo from '../assets/logo.png'
 import { Web3Button } from '../components'
 import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
+import { Soldout } from '../components/phaseDisplays/Soldout'
 import { useWeb3Context } from '../context'
+import { ethers } from 'ethers'
+import { contractAddress } from '../helpers'
+import abi from '../data/abi.json'
 
 const Home = () => {
   const { provider, address } = useWeb3Context()
   const [isCorrectNetwork, setCorrectNetwork] = useState(false)
-  const [userMintDetails, setuserMintDetails] = useState({
-    userPhase: '',
-    allowedMints: 0,
-    pricePerToken: 0,
-    proofs: [],
-  })
-
+  const [userMintDetails, setuserMintDetails] = useState()
+  const [soldout, setSoldout] = useState(false)
   useEffect(() => {
     const checkCorrectNetwork = async () => {
       if (!address) {
@@ -47,11 +46,26 @@ const Home = () => {
         .catch((err) => console.log(err))
     }
 
+    const getTotalSupply = async () => {
+      if (provider) {
+        const currentProvider = new ethers.providers.Web3Provider(provider)
+        const contract = new ethers.Contract(
+          contractAddress,
+          abi.abi,
+          currentProvider
+        )
+        const totalSupply = await contract.functions.totalSupply()
+        if (Number(totalSupply) === 9999) {
+          setSoldout(true)
+        }
+      }
+    }
+    getTotalSupply()
     checkCorrectNetwork()
     if (isCorrectNetwork) {
       getuserMintDetails()
     }
-  }, [address, provider?.rpcUrl, isCorrectNetwork])
+  }, [address, provider, provider?.rpcUrl, isCorrectNetwork])
 
   return (
     <div
@@ -67,19 +81,20 @@ const Home = () => {
         <title>Fear City Mint</title>
         <meta name="description" content="Boilerplate for Web3 dApp" />
       </Head>
-
       <div className="absolute top-8 right-8">
         <Web3Button />
       </div>
-
       <div className="absolute top-8 left-8">
         <Image src={logo} alt="logo" layout="fixed" height={64} width={109.8} />
       </div>
-
-      <PhaseAndCountdownDisplay
-        userMintDetails={userMintDetails}
-        isCorrectNetwork={isCorrectNetwork}
-      />
+      {soldout ? (
+        <Soldout />
+      ) : (
+        <PhaseAndCountdownDisplay
+          userMintDetails={userMintDetails}
+          isCorrectNetwork={isCorrectNetwork}
+        />
+      )}
     </div>
   )
 }

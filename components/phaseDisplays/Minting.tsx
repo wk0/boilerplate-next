@@ -2,6 +2,9 @@ import mintPhases from '../../data/phases'
 import thumper from '../../assets/thumper.png'
 
 export const Minting = ({ currentPhaseName }: { currentPhaseName: string }) => {
+  if (!currentPhaseName) {
+    return null
+  }
   return (
     <div className="flex flex-col text-center">
       <div className="mx-4 flex ">
