@@ -1,10 +1,9 @@
+import { useWeb3Context } from '../context'
 import { useMintPhases } from '../hooks/useMintPhases'
 import { Countdown } from './Countdown'
 import { MintButton } from './MintButton'
 import { Minting } from './phaseDisplays/Minting'
 import { Premint } from './phaseDisplays/Premint'
-import { useWeb3Context } from '../context'
-import { ErrorBoundary } from './ErrorBoundary'
 
 export const PhaseAndCountdownDisplay = ({
   isCorrectNetwork,
