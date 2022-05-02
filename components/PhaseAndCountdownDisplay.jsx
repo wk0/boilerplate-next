@@ -4,6 +4,7 @@ import { MintButton } from './MintButton'
 import { Minting } from './phaseDisplays/Minting'
 import { Premint } from './phaseDisplays/Premint'
 import { useWeb3Context } from '../context'
+import { ErrorBoundary } from './ErrorBoundary'
 
 export const PhaseAndCountdownDisplay = ({
   isCorrectNetwork,
@@ -32,10 +33,12 @@ export const PhaseAndCountdownDisplay = ({
         <div>
           {isCorrectNetwork ? (
             <div className="mx-auto mt-12 sm:mt-24">
-              <MintButton
-                userMintDetails={userMintDetails}
-                currentPhaseName={currentPhaseName}
-              />
+              <ErrorBoundary>
+                <MintButton
+                  userMintDetails={userMintDetails}
+                  currentPhaseName={currentPhaseName}
+                />
+              </ErrorBoundary>
             </div>
           ) : (
             <span className="mt-12 py-8 px-4 text-center text-red-600">

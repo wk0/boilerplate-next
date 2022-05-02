@@ -41,7 +41,6 @@ const Home = () => {
         params: { address: address?.toLowerCase() },
       })
         .then((res) => {
-          console.log('user mint details index', res.data.mintDetails)
           setuserMintDetails(res.data.mintDetails)
         })
         .catch((err) => console.log(err))

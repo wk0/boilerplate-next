@@ -14,7 +14,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
   const [remainingMints, setRemainingMints] = useState(0)
 
   useEffect(() => {
-    if (!provider || !userMintDetails) {
+    if (!provider || !userMintDetails || !userMintDetails.allowedMints) {
       return
     }
     const getRemainingMints = async () => {
