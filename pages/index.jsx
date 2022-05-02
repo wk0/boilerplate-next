@@ -1,22 +1,18 @@
 import Axios from 'axios'
+import { ethers } from 'ethers'
 import Head from 'next/head'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import homebg from '../assets/homebg.png'
-import logo from '../assets/logo.png'
 import { Web3Button } from '../components'
-import { PhaseAndCountdownDisplay } from '../components/PhaseAndCountdownDisplay'
-import { Soldout } from '../components/phaseDisplays/Soldout'
 import { useWeb3Context } from '../context'
-import { ethers } from 'ethers'
-import { contractAddress } from '../helpers'
 import abi from '../data/abi.json'
+import { contractAddress } from '../helpers'
 
 const Home = () => {
   const { provider, address } = useWeb3Context()
   const [isCorrectNetwork, setCorrectNetwork] = useState(false)
-  const [userMintDetails, setuserMintDetails] = useState()
-  const [soldout, setSoldout] = useState(false)
+  // const [userMintDetails, setuserMintDetails] = useState()
+  // const [soldout, setSoldout] = useState(false)
   useEffect(() => {
     const checkCorrectNetwork = async () => {
       if (!address) {

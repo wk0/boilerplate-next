@@ -52,7 +52,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       }
     }
     getRemainingMints()
-  }, [address, provider, userMintDetails?.allowedMints, currentPhaseName])
+  }, [address, provider, userMintDetails, currentPhaseName])
 
   const mint = async () => {
     // Check if wallet is connected
