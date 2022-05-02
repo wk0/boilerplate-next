@@ -27,7 +27,7 @@ const mintPhases = [
     allowedMints: 0,
   },
   {
-    startTimestamp: new Date('2022-05-01T21:30:00').getTime(),
+    startTimestamp: new Date('2022-05-01T22:40:00').getTime(),
     pricePerToken: parseUnits('0', 'ether'),
     merkleTree: phase1MerkleTree,
     merkleRoot: phase1MerkleTree.getHexRoot(),
@@ -37,7 +37,7 @@ const mintPhases = [
     ),
   },
   {
-    startTimestamp: new Date('2022-05-01T21:38:00').getTime(),
+    startTimestamp: new Date('2022-05-01T22:48:00').getTime(),
     pricePerToken: parseUnits('0.001', 'ether'),
     merkleTree: phase2MerkleTree,
     merkleRoot: phase2MerkleTree.getHexRoot(),
@@ -48,7 +48,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-05-01T21:46:00').getTime(),
+    startTimestamp: new Date('2022-05-01T22:56:00').getTime(),
     pricePerToken: parseUnits('0.002', 'ether'),
     merkleTree: phase3MerkleTree,
     merkleRoot: phase3MerkleTree.getHexRoot(),
@@ -59,7 +59,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-05-01T21:54:00').getTime(),
+    startTimestamp: new Date('2022-05-01T23:04:00').getTime(),
     pricePerToken: parseUnits('0.003', 'ether'),
     merkleTree: null,
     merkleRoot: null,

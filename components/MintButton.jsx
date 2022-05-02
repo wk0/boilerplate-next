@@ -32,7 +32,6 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       }
       console.log('currentPhaseName', currentPhaseName)
       if (currentPhaseName === 'PUBLIC') {
-        console.log('PUBLIC', 3 - Number(mintedAmount))
         // Public mint allowance is 3.
         const remainingMints = 3 - Number(mintedAmount)
         setMintQuantity(remainingMints)
