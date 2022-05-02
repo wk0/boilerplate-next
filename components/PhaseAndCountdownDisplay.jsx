@@ -33,12 +33,10 @@ export const PhaseAndCountdownDisplay = ({
         <div>
           {isCorrectNetwork ? (
             <div className="mx-auto mt-12 sm:mt-24">
-              <ErrorBoundary>
-                <MintButton
-                  userMintDetails={userMintDetails}
-                  currentPhaseName={currentPhaseName}
-                />
-              </ErrorBoundary>
+              <MintButton
+                userMintDetails={userMintDetails}
+                currentPhaseName={currentPhaseName}
+              />
             </div>
           ) : (
             <span className="mt-12 py-8 px-4 text-center text-red-600">

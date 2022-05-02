@@ -7,6 +7,7 @@ import { contractAddress } from '../helpers'
 import mintPhases from '../data/phases'
 
 export const MintButton = ({ userMintDetails, currentPhaseName }) => {
+  console.log('userMintDetails', userMintDetails, currentPhaseName)
   const { provider, address } = useWeb3Context()
   const [txnHash, setTxnHash] = useState(null)
   const [status, setStatus] = useState('Mint')
