@@ -8,6 +8,7 @@ function getUserMintDetails(address: string) {
   console.log('getUserMintDetails1', address)
   // find the phase in mintPhases that contains the address
   const usersPhase = mintPhases.find((phase) => {
+    if (!phase.allowedMints) return false
     return phase.allowedMints[address] != null
   })
   console.log('getUserMintDetails2', usersPhase)

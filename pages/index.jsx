@@ -85,7 +85,7 @@ const Home = () => {
       <div className="absolute top-8 right-8">
         <Web3Button />
       </div>
-      <div className="absolute top-8 left-8">
+      {/* <div className="absolute top-8 left-8">
         <Image src={logo} alt="logo" layout="fixed" height={64} width={109.8} />
       </div>
       {soldout ? (
@@ -95,7 +95,7 @@ const Home = () => {
           userMintDetails={userMintDetails}
           isCorrectNetwork={isCorrectNetwork}
         />
-      )}
+      )} */}
     </div>
   )
 }
