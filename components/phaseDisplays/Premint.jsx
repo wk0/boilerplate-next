@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export const Premint = () => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="mt-24 flex flex-col items-center">
       <Image
         src={thumper}
         layout="fixed"
@@ -11,7 +11,7 @@ export const Premint = () => {
         height={100}
         alt="thumper"
       />
-      <span className="mt-8 text-center text-[32px]">
+      <span className="mt-8 text-center text-3xl sm:text-[32px]">
         GET READY TO ENTER FEAR CITY
       </span>
       <span className="mt-16 mb-8 text-2xl text-[#00ff3d]">

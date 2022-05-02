@@ -31,7 +31,7 @@ export const PhaseAndCountdownDisplay = ({
       {address ? (
         <div>
           {isCorrectNetwork ? (
-            <div className="mx-auto mt-24">
+            <div className="mx-auto mt-12 sm:mt-24">
               <MintButton
                 userMintDetails={userMintDetails}
                 currentPhaseName={currentPhaseName}

@@ -45,7 +45,7 @@ function getMintDetails(address: string) {
     }
   }
 
-  if (userMintDetails.allowedMints == 0) {
+  if (userMintDetails?.allowedMints == 0) {
     return {
       userPhase: userMintDetails.userPhase,
       allowedMints: userMintDetails.allowedMints,

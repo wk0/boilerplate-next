@@ -13,7 +13,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
   const [remainingMints, setRemainingMints] = useState(0)
 
   useEffect(() => {
-    if (!provider) {
+    if (!provider || !userMintDetails) {
       return
     }
     const getRemainingMints = async () => {
@@ -127,12 +127,12 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       currentPhaseName !== 'PUBLIC'
     ) {
       return (
-        <div className="mb-6 flex justify-between">
+        <div className="mb-6 flex justify-between whitespace-nowrap text-sm sm:text-base">
           <div>
             <span className="text-white">YOUR MINT PHASE: </span>
             <span className="text-[#00ff3d]">{userMintDetails.userPhase}</span>
           </div>
-          <div className="ml-8">
+          <div className="ml-2 sm:ml-8">
             <span className="text-white">MINTS AVAILABLE: </span>
             <span className="text-[#00ff3d]">{remainingMints}</span>
           </div>

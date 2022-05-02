@@ -61,7 +61,7 @@ const Home = () => {
       }
     }
     checkCorrectNetwork()
-    if (isCorrectNetwork) {
+    if (isCorrectNetwork && address) {
       getuserMintDetails()
       getTotalSupply()
     }
