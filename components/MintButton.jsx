@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { useWeb3Context } from '../context'
 import abi from '../data/abi.json'
 import { contractAddress } from '../helpers'
+import mintPhases from '../data/phases'
 
 export const MintButton = ({ userMintDetails, currentPhaseName }) => {
   const { provider, address } = useWeb3Context()
@@ -29,15 +30,15 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
       } else {
         mintedAmount = await contract.functions.numberMinted(address)
       }
-
-      // in case we get mintedAmount before userMintDetails, set to 0 instead of calculating a negative number
-      if (userMintDetails?.allowedMints === 0) {
-        setMintQuantity(0)
-      } else if (currentPhaseName === 'PUBLIC') {
+      console.log('currentPhaseName', currentPhaseName)
+      if (currentPhaseName === 'PUBLIC') {
+        console.log('PUBLIC', 3 - Number(mintedAmount))
         // Public mint allowance is 3.
         const remainingMints = 3 - Number(mintedAmount)
         setMintQuantity(remainingMints)
         setRemainingMints(remainingMints)
+      } else if (userMintDetails?.allowedMints === 0) {
+        setMintQuantity(0)
       } else {
         const remainingMints =
           userMintDetails?.allowedMints - Number(mintedAmount)
@@ -77,7 +78,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
         let claimTx
         if (currentPhaseName === 'PUBLIC') {
           claimTx = await fcContract.purchase(mintQuantity, {
-            value: userMintDetails.pricePerToken * mintQuantity,
+            value: Number(mintPhases[4].pricePerToken) * mintQuantity,
             gasLimit: 148000 + mintQuantity * 2000,
           })
         } else {
