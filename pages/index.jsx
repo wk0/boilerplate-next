@@ -11,6 +11,7 @@ import { useWeb3Context } from '../context'
 import { ethers } from 'ethers'
 import { contractAddress } from '../helpers'
 import abi from '../data/abi.json'
+import { Test } from './test'
 
 const Home = () => {
   const { provider, address } = useWeb3Context()
@@ -87,6 +88,7 @@ const Home = () => {
       <div className="absolute top-8 left-8">
         <Image src={logo} alt="logo" layout="fixed" height={64} width={109.8} />
       </div>
+      <Test />
       {soldout ? (
         <Soldout />
       ) : (

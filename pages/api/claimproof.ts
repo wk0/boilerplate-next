@@ -5,13 +5,10 @@ const { keccak256, defaultAbiCoder } = ethers.utils
 import mintPhases from '../../data/phases'
 
 function getUserMintDetails(address: string) {
-  console.log('getUserMintDetails1', address)
   // find the phase in mintPhases that contains the address
   const usersPhase = mintPhases.find((phase) => {
-    if (!phase.allowedMints) return false
     return phase.allowedMints[address] != null
   })
-  console.log('getUserMintDetails2', usersPhase)
   // returns phase name, max mint, and mint price
   return {
     userPhase: usersPhase?.name || 'No Phase',
@@ -42,7 +39,7 @@ function getMintDetails(address: string) {
     return {
       userPhase: userMintDetails.userPhase,
       allowedMints: userMintDetails.allowedMints,
-      pricePerToken: userMintDetails.pricePerToken,
+      pricePerToken: null,
       proofs: null,
       msg: 'No active mint phase.',
     }
@@ -52,7 +49,7 @@ function getMintDetails(address: string) {
     return {
       userPhase: userMintDetails.userPhase,
       allowedMints: userMintDetails.allowedMints,
-      pricePerToken: userMintDetails.pricePerToken,
+      pricePerToken: activeMintPhase.pricePerToken,
       proofs: null,
       msg: 'User not in any mint phase.',
     }
@@ -69,7 +66,7 @@ function getMintDetails(address: string) {
   return {
     userPhase: userMintDetails.userPhase,
     allowedMints: userMintDetails.allowedMints,
-    pricePerToken: activeMintPhase.pricePerToken.toString(),
+    pricePerToken: activeMintPhase.pricePerToken,
     proofs,
   }
 }

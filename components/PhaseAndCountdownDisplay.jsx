@@ -11,45 +11,45 @@ export const PhaseAndCountdownDisplay = ({
 }) => {
   const [countdown, currentPhaseName] = useMintPhases()
   const { address } = useWeb3Context()
+  // We should still display the countdown even if the !userMintDetails, so Loading... only shows when we don't know the current phase
 
-  if (!currentPhaseName) {
-    return <div className="text-4xl">Loading...</div>
-  }
-
-  const renderMintPhaseDisplay = () => {
-    if (currentPhaseName === 'PREMINT') {
-      return <Premint />
-    } else {
-      return <Minting currentPhaseName={currentPhaseName} />
+  const renderMintButton = () => {
+    if (!currentPhaseName) {
+      return <div className="text-4xl">Loading...</div>
     }
+
+    if (!isCorrectNetwork) {
+      return <div className="mt-12">Connect wallet to get started</div>
+    }
+
+    if (!address) {
+      return (
+        <span className="mt-12 py-8 px-4 text-center text-red-600">
+          {`Switch to ${
+            process.env.NEXT_PUBLIC_NEXT_ENV === 'development'
+              ? 'Goerli Testnet'
+              : 'ETH Mainnet'
+          } and refresh page to mint`}
+        </span>
+      )
+    }
+
+    return (
+      <MintButton
+        userMintDetails={userMintDetails}
+        currentPhaseName={currentPhaseName}
+      />
+    )
   }
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      {renderMintPhaseDisplay()}
-      <Countdown time={countdown} />
-
-      {address ? (
-        <div>
-          {isCorrectNetwork ? (
-            <div className="mx-auto mt-12 sm:mt-24">
-              <MintButton
-                userMintDetails={userMintDetails}
-                currentPhaseName={currentPhaseName}
-              />
-            </div>
-          ) : (
-            <span className="mt-12 py-8 px-4 text-center text-red-600">
-              {`Switch to ${
-                process.env.NEXT_PUBLIC_NEXT_ENV === 'development'
-                  ? 'Goerli Testnet'
-                  : 'ETH Mainnet'
-              } and refresh page to mint`}
-            </span>
-          )}
-        </div>
+      {currentPhaseName === 'PREMINT' ? (
+        <Premint />
       ) : (
-        <div className="mt-12">Connect wallet to get started</div>
+        <Minting currentPhaseName={currentPhaseName} />
       )}
+      <Countdown time={countdown} />
+      {renderMintButton()}
     </div>
   )
 }
