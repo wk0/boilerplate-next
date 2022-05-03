@@ -66,6 +66,7 @@ export const useMint = (userMintDetails, currentPhaseName) => {
 
   let pricePerToken
   let totalPrice
+  console.log('GETTING PPT', currentPhaseName, userMintDetails)
   if (currentPhaseName === 'PUBLIC' || !userMintDetails.pricePerToken) {
     // If the user is not in a list, the totalPrice is public totalPrice
     pricePerToken = ethers.BigNumber.from(mintPhases[4].pricePerToken)

@@ -33,28 +33,6 @@ function getActiveMintPhase() {
 function getMintDetails(address: string) {
   const activeMintPhase = getActiveMintPhase()
   const userMintDetails = getUserMintDetails(address)
-
-  // If no active mint phase, should still return user's mint details
-  if (!activeMintPhase) {
-    return {
-      userPhase: userMintDetails.userPhase,
-      allowedMints: userMintDetails.allowedMints,
-      pricePerToken: null,
-      proofs: null,
-      msg: 'No active mint phase.',
-    }
-  }
-
-  if (userMintDetails?.allowedMints == 0) {
-    return {
-      userPhase: userMintDetails.userPhase,
-      allowedMints: userMintDetails.allowedMints,
-      pricePerToken: userMintDetails.pricePerToken,
-      proofs: null,
-      msg: 'User not in any mint phase.',
-    }
-  }
-
   const leaf = keccak256(
     defaultAbiCoder.encode(
       ['address', 'uint256'],

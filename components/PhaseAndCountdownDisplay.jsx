@@ -13,9 +13,9 @@ export const PhaseAndCountdownDisplay = ({
   const { address } = useWeb3Context()
   // We should still display the countdown even if the !userMintDetails, so Loading... only shows when we don't know the current phase
   const renderMintButton = () => {
-    if (!isCorrectNetwork) {
+    if (address && !isCorrectNetwork) {
       return (
-        <span className="mt-12 py-8 px-4 text-center text-red-600">
+        <span className="text-2xl text-red-600">
           {`Switch to ${
             process.env.NEXT_PUBLIC_NEXT_ENV === 'development'
               ? 'Goerli Testnet'
@@ -30,7 +30,7 @@ export const PhaseAndCountdownDisplay = ({
     }
 
     if (!userMintDetails || !address) {
-      return <div className="text-4xl">Connect wallet to get started</div>
+      return <div className="text-2xl">Connect wallet to get started</div>
     }
 
     return (
