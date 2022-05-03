@@ -7,18 +7,15 @@ export const MintMessage = ({
   pricePerToken,
 }) => {
   console.log('pricePerToken', pricePerToken)
-  if (
-    userMintDetails.userPhase == 'No Phase' &&
-    currentPhaseName !== 'PUBLIC'
-  ) {
+  if (userMintDetails.userPhase === 'PUBLIC' && currentPhaseName !== 'PUBLIC') {
     return (
       <div className="mb-2 text-gray-300">
         YOU ARE NOT ON THE ALLOWLIST. PLEASE WAIT FOR THE PUBLIC SALE.
       </div>
     )
   } else if (
-    userMintDetails.userPhase == 'No Phase' &&
-    currentPhaseName !== 'PUBLIC'
+    userMintDetails.userPhase === 'PUBLIC' &&
+    currentPhaseName === 'PUBLIC'
   ) {
     return (
       <div className="mb-6 flex justify-between whitespace-nowrap text-sm sm:text-base">

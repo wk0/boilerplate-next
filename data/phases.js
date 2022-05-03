@@ -48,7 +48,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-05-01T22:56:00').getTime(),
+    startTimestamp: new Date('2022-05-02T22:56:00').getTime(),
     pricePerToken: parseUnits('0.002', 'ether'),
     merkleTree: phase3MerkleTree,
     merkleRoot: phase3MerkleTree.getHexRoot(),
@@ -59,7 +59,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-05-02T23:04:00').getTime(),
+    startTimestamp: new Date('2022-05-05T23:04:00').getTime(),
     pricePerToken: parseUnits('0.003', 'ether'),
     merkleTree: null,
     merkleRoot: null,

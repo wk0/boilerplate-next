@@ -11,7 +11,7 @@ function getUserMintDetails(address: string) {
   })
   // // returns phase name, max mint, and mint price
   return {
-    userPhase: usersPhase?.name || 'No Phase',
+    userPhase: usersPhase?.name || 'PUBLIC',
     allowedMints: usersPhase?.allowedMints[address] || 0,
     pricePerToken: usersPhase?.pricePerToken || 0,
   }
