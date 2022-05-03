@@ -10,7 +10,7 @@ export const MintMessage = ({
   if (userMintDetails.userPhase === 'PUBLIC' && currentPhaseName !== 'PUBLIC') {
     return (
       <div className="mb-2 text-gray-300">
-        YOU ARE NOT ON THE ALLOWLIST. PLEASE WAIT FOR THE PUBLIC SALE.
+        You are not on any of our lists. PLEASE WAIT FOR THE PUBLIC SALE.
       </div>
     )
   } else if (

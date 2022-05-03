@@ -54,8 +54,13 @@ export const useMint = (userMintDetails, currentPhaseName) => {
     }
     getRemainingMints()
 
-    if (currentPhaseName !== userMintDetails?.userPhase) {
+    if (
+      currentPhaseName !== userMintDetails?.userPhase &&
+      currentPhaseName !== 'PUBLIC'
+    ) {
       setStatus(`PLEASE WAIT`)
+    } else {
+      setStatus('Mint')
     }
   }, [address, provider, currentPhaseName, userMintDetails])
 
