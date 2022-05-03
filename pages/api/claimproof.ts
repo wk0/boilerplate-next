@@ -6,14 +6,19 @@ import mintPhases from '../../data/phases'
 
 function getUserMintDetails(address: string) {
   // find the phase in mintPhases that contains the address
-  const usersPhase = mintPhases.find((phase) => {
-    return phase.allowedMints[address] != null
-  })
-  // returns phase name, max mint, and mint price
+  // const usersPhase = mintPhases.find((phase) => {
+  //   return phase.allowedMints[address] != null
+  // })
+  // // returns phase name, max mint, and mint price
+  // return {
+  //   userPhase: usersPhase?.name || 'No Phase',
+  //   allowedMints: usersPhase?.allowedMints[address] || 0,
+  //   pricePerToken: usersPhase?.pricePerToken || 0,
+  // }
   return {
-    userPhase: usersPhase?.name || 'No Phase',
-    allowedMints: usersPhase?.allowedMints[address] || 0,
-    pricePerToken: usersPhase?.pricePerToken || 0,
+    userPhase: 'TEAMS',
+    allowedMints: 10,
+    pricePerToken: 0,
   }
 }
 

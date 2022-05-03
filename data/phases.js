@@ -24,7 +24,7 @@ const mintPhases = [
     name: 'PREMINT',
     merkleRoot: null,
     merkleTree: null,
-    allowedMints: 0,
+    allowedMints: {},
   },
   {
     startTimestamp: new Date('2022-05-01T22:40:00').getTime(),
