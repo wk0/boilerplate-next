@@ -117,15 +117,5 @@ export const useMint = (userMintDetails, currentPhaseName) => {
     }
   }
 
-  const mint = () => {
-    console.log('test')
-  }
-  const txnHash = ''
-  const remainingMints = 0
-  const mintQuantity = 0
-  const setMintQuantity = () => {
-    console.log('test')
-  }
-
   return [mint, txnHash, status, remainingMints, mintQuantity, setMintQuantity]
 }
