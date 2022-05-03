@@ -49,7 +49,7 @@ export const PhaseAndCountdownDisplay = ({
         <Minting currentPhaseName={currentPhaseName} />
       )}
       <Countdown time={countdown} />
-      {renderMintButton()}
+      <div className="mt-8">{renderMintButton()}</div>
     </div>
   )
 }
