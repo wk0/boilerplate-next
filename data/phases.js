@@ -59,7 +59,7 @@ const mintPhases = [
   },
 
   {
-    startTimestamp: new Date('2022-05-03T24:42:00+0000').getTime(),
+    startTimestamp: new Date('2022-05-03T23:42:00+0000').getTime(),
     pricePerToken: parseUnits('0.003', 'ether'),
     merkleTree: null,
     merkleRoot: null,
