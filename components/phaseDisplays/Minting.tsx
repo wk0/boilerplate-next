@@ -37,6 +37,9 @@ export const Minting = ({ currentPhaseName }: { currentPhaseName: string }) => {
                 >
                   {phase.name}
                 </div>
+                {phase.name === currentPhaseName ? (
+                  <div className="text-xs text-[#00ff3d]">MINTING NOW</div>
+                ) : null}
               </div>
             )
           }
@@ -46,7 +49,7 @@ export const Minting = ({ currentPhaseName }: { currentPhaseName: string }) => {
         ''
       ) : (
         <span className="whitespace-wrap mt-16 mb-8 text-lg text-[#00ff3d] sm:text-2xl">
-          CURRENT MINTING PHASE ENDS IN:
+          {currentPhaseName} PHASE ENDS IN:
         </span>
       )}
     </div>

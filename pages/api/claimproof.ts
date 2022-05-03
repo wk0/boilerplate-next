@@ -49,7 +49,7 @@ function getMintDetails(address: string) {
     return {
       userPhase: userMintDetails.userPhase,
       allowedMints: userMintDetails.allowedMints,
-      pricePerToken: activeMintPhase.pricePerToken,
+      pricePerToken: userMintDetails.pricePerToken,
       proofs: null,
       msg: 'User not in any mint phase.',
     }
@@ -66,7 +66,7 @@ function getMintDetails(address: string) {
   return {
     userPhase: userMintDetails.userPhase,
     allowedMints: userMintDetails.allowedMints,
-    pricePerToken: activeMintPhase.pricePerToken,
+    pricePerToken: userMintDetails.pricePerToken,
     proofs,
   }
 }

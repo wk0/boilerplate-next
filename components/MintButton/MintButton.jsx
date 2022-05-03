@@ -4,15 +4,24 @@ import { MintQuantity } from './MintQuantity'
 import { useMint } from './useMint'
 
 export const MintButton = ({ userMintDetails, currentPhaseName }) => {
-  const [mint, txnHash, status, remainingMints, mintQuantity, setMintQuantity] =
-    useMint(userMintDetails, currentPhaseName)
-
+  const [
+    mint,
+    txnHash,
+    status,
+    remainingMints,
+    mintQuantity,
+    setMintQuantity,
+    pricePerToken,
+    price,
+  ] = useMint(userMintDetails, currentPhaseName)
+  console.log('MintButton.jsx: userMintDetails', price)
   return (
     <div className="flex flex-col items-center justify-center">
       <MintMessage
         userMintDetails={userMintDetails}
         currentPhaseName={currentPhaseName}
         remainingMints={remainingMints}
+        pricePerToken={pricePerToken}
       />
       <div className="flex">
         <MintQuantity

@@ -27,6 +27,7 @@ export const useMint = (userMintDetails, currentPhaseName) => {
       let mintedAmount
       if (currentPhaseName === 'PUBLIC') {
         mintedAmount = await contract.functions.numberPurchased(address)
+        console.log('mintedAmount', mintedAmount)
       } else {
         mintedAmount = await contract.functions.numberMinted(address)
       }
@@ -52,11 +53,23 @@ export const useMint = (userMintDetails, currentPhaseName) => {
       }
     }
     getRemainingMints()
-  }, [address, provider])
 
-  const price = ethers.BigNumber.from(userMintDetails.pricePerToken).mul(
-    mintQuantity
-  )
+    if (currentPhaseName !== userMintDetails?.userPhase) {
+      setStatus(`PLEASE WAIT`)
+    }
+  }, [address, provider, currentPhaseName, userMintDetails])
+
+  let pricePerToken
+  let totalPrice
+  if (currentPhaseName === 'PUBLIC' || !userMintDetails.pricePerToken) {
+    // If the user is not in a list, the totalPrice is public totalPrice
+    pricePerToken = ethers.BigNumber.from(mintPhases[4].pricePerToken)
+    totalPrice = pricePerToken.mul(mintQuantity)
+  } else {
+    pricePerToken = ethers.BigNumber.from(userMintDetails.pricePerToken)
+    totalPrice = pricePerToken.mul(mintQuantity)
+  }
+
   const mint = async () => {
     // Check if wallet is connected
     if (!provider) {
@@ -81,7 +94,7 @@ export const useMint = (userMintDetails, currentPhaseName) => {
         if (currentPhaseName === 'PUBLIC') {
           claimTx = await fcContract.purchase(mintQuantity, {
             // mintPhases[4] == public mint
-            value: ethers.BigNumber.from(mintPhases[4]).mul(mintQuantity),
+            value: totalPrice,
             gasLimit: 148000 + mintQuantity * 2000,
           })
         } else {
@@ -90,7 +103,7 @@ export const useMint = (userMintDetails, currentPhaseName) => {
             userMintDetails?.allowedMints,
             userMintDetails.proofs,
             {
-              value: price,
+              value: totalPrice,
               gasLimit: 148000 + mintQuantity * 2000,
             }
           )
@@ -117,5 +130,14 @@ export const useMint = (userMintDetails, currentPhaseName) => {
     }
   }
 
-  return [mint, txnHash, status, remainingMints, mintQuantity, setMintQuantity]
+  return [
+    mint,
+    txnHash,
+    status,
+    remainingMints,
+    mintQuantity,
+    setMintQuantity,
+    pricePerToken,
+    totalPrice,
+  ]
 }

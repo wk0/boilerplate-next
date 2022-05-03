@@ -12,18 +12,8 @@ export const PhaseAndCountdownDisplay = ({
   const [countdown, currentPhaseName] = useMintPhases()
   const { address } = useWeb3Context()
   // We should still display the countdown even if the !userMintDetails, so Loading... only shows when we don't know the current phase
-
   const renderMintButton = () => {
-    console.log('userMintDetails', userMintDetails)
-    if (!currentPhaseName || !userMintDetails) {
-      return <div className="text-4xl">Loading...</div>
-    }
-
     if (!isCorrectNetwork) {
-      return <div className="mt-12">Connect wallet to get started</div>
-    }
-
-    if (!address) {
       return (
         <span className="mt-12 py-8 px-4 text-center text-red-600">
           {`Switch to ${
@@ -33,6 +23,14 @@ export const PhaseAndCountdownDisplay = ({
           } and refresh page to mint`}
         </span>
       )
+    }
+
+    if (!currentPhaseName) {
+      return <div>Loading..</div>
+    }
+
+    if (!userMintDetails || !address) {
+      return <div className="text-4xl">Connect wallet to get started</div>
     }
 
     return (
