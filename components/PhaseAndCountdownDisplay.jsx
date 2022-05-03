@@ -14,7 +14,8 @@ export const PhaseAndCountdownDisplay = ({
   // We should still display the countdown even if the !userMintDetails, so Loading... only shows when we don't know the current phase
 
   const renderMintButton = () => {
-    if (!currentPhaseName) {
+    console.log('userMintDetails', userMintDetails)
+    if (!currentPhaseName || !userMintDetails) {
       return <div className="text-4xl">Loading...</div>
     }
 
