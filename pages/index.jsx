@@ -10,6 +10,7 @@ import { Soldout } from '../components/phaseDisplays/Soldout'
 import { useWeb3Context } from '../context'
 import { ethers } from 'ethers'
 import { contractAddress } from '../helpers'
+import { useMintPhases } from '../hooks/useMintPhases'
 import abi from '../data/abi.json'
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
   const [isCorrectNetwork, setCorrectNetwork] = useState(false)
   const [userMintDetails, setuserMintDetails] = useState()
   const [soldout, setSoldout] = useState(false)
+  const [countdown, currentPhaseName] = useMintPhases()
   useEffect(() => {
     const checkCorrectNetwork = async () => {
       if (!address) {
@@ -65,7 +67,7 @@ const Home = () => {
       getuserMintDetails()
       getTotalSupply()
     }
-  }, [address, provider, provider?.rpcUrl, isCorrectNetwork])
+  }, [address, provider, provider?.rpcUrl, isCorrectNetwork, currentPhaseName])
 
   return (
     <div
@@ -92,6 +94,8 @@ const Home = () => {
         <Soldout />
       ) : (
         <PhaseAndCountdownDisplay
+          countdown={countdown}
+          currentPhaseName={currentPhaseName}
           userMintDetails={userMintDetails}
           isCorrectNetwork={isCorrectNetwork}
         />

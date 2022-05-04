@@ -27,7 +27,6 @@ export const useMint = (userMintDetails, currentPhaseName) => {
       let mintedAmount
       if (currentPhaseName === 'PUBLIC') {
         mintedAmount = await contract.functions.numberPurchased(address)
-        console.log('mintedAmount', mintedAmount)
       } else {
         mintedAmount = await contract.functions.numberMinted(address)
       }
@@ -48,7 +47,6 @@ export const useMint = (userMintDetails, currentPhaseName) => {
         } else {
           setMintQuantity(remainingMints)
         }
-
         setRemainingMints(remainingMints)
       }
     }
@@ -66,7 +64,7 @@ export const useMint = (userMintDetails, currentPhaseName) => {
 
   let pricePerToken
   let totalPrice
-  console.log('GETTING PPT', currentPhaseName, userMintDetails)
+
   if (currentPhaseName === 'PUBLIC' || !userMintDetails.pricePerToken) {
     // If the user is not in a list, the totalPrice is public totalPrice
     pricePerToken = ethers.BigNumber.from(mintPhases[4].pricePerToken)
@@ -82,7 +80,6 @@ export const useMint = (userMintDetails, currentPhaseName) => {
       toast.error('Connect your wallet')
       return
     }
-
     if (currentPhaseName !== 'PUBLIC' && currentPhaseName !== 'PREMINT') {
       if (userMintDetails.proofs.length === 0) {
         toast.error('You are not able to mint during this mint phase')
@@ -129,10 +126,10 @@ export const useMint = (userMintDetails, currentPhaseName) => {
       }
     } catch (error) {
       console.log(error)
-      setStatus('Failed')
+      setStatus('Failed, try again')
       setTimeout(() => {
         setStatus('Mint')
-      }, 5000)
+      }, 3000)
     }
   }
 

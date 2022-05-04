@@ -4,6 +4,7 @@ import { MintQuantity } from './MintQuantity'
 import { useMint } from './useMint'
 
 export const MintButton = ({ userMintDetails, currentPhaseName }) => {
+  // console.log('im rereindering', userMintDetails, currentPhaseName)
   const [
     mint,
     txnHash,
@@ -14,7 +15,7 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
     pricePerToken,
     price,
   ] = useMint(userMintDetails, currentPhaseName)
-  console.log('MintButton.jsx: userMintDetails', price)
+  // console.log('MintButton.jsx: userMintDetails', price)
   return (
     <div className="flex flex-col items-center justify-center">
       <MintMessage
@@ -37,7 +38,8 @@ export const MintButton = ({ userMintDetails, currentPhaseName }) => {
           disabled={
             mintQuantity === 0 ||
             (userMintDetails.userPhase !== currentPhaseName &&
-              currentPhaseName !== 'PUBLIC')
+              currentPhaseName !== 'PUBLIC') ||
+            status !== 'Mint'
           }
         >
           {status}

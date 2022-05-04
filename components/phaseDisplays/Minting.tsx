@@ -34,13 +34,15 @@ export const Minting = ({ currentPhaseName }: { currentPhaseName: string }) => {
 
                   <div
                     className={`${
-                      phase.name === currentPhaseName ? '' : 'opacity-60'
-                    } mt-4`}
+                      phase.name === currentPhaseName
+                        ? 'text-[#00ff3d]'
+                        : 'opacity-60'
+                    } mt-4 `}
                   >
                     {phase.name}
                   </div>
                   {phase.name === currentPhaseName ? (
-                    <div className="text-xs text-[#00ff3d]">MINTING NOW</div>
+                    <div className="text-xs text-white">MINTING NOW</div>
                   ) : (
                     <div className="text-xs opacity-80">
                       {moment(phase.startTimestamp)

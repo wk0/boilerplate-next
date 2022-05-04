@@ -1,16 +1,26 @@
 import { ethers } from 'ethers'
 
+const phases = ['TEAMS', 'ALLOWLIST', 'WAITLIST', 'PUBLIC']
 export const MintMessage = ({
   userMintDetails,
   remainingMints,
   currentPhaseName,
   pricePerToken,
 }) => {
-  console.log('pricePerToken', pricePerToken)
   if (userMintDetails.userPhase === 'PUBLIC' && currentPhaseName !== 'PUBLIC') {
     return (
       <div className="mb-2 text-gray-300">
         You are not on any of our lists. PLEASE WAIT FOR THE PUBLIC SALE.
+      </div>
+    )
+  } else if (
+    phases.indexOf(userMintDetails.userPhase) <
+      phases.indexOf(currentPhaseName) &&
+    currentPhaseName !== 'PUBLIC'
+  ) {
+    return (
+      <div className="mb-2 text-gray-300">
+        {`Your mint phase (${userMintDetails.userPhase}) has passed, please wait for the public sale.`}
       </div>
     )
   } else if (

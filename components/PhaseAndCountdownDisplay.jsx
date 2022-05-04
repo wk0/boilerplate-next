@@ -1,15 +1,15 @@
 import { useWeb3Context } from '../context'
-import { useMintPhases } from '../hooks/useMintPhases'
 import { Countdown } from './Countdown'
 import { MintButton } from './MintButton'
 import { Minting } from './phaseDisplays/Minting'
 import { Premint } from './phaseDisplays/Premint'
 
 export const PhaseAndCountdownDisplay = ({
+  countdown,
+  currentPhaseName,
   isCorrectNetwork,
   userMintDetails,
 }) => {
-  const [countdown, currentPhaseName] = useMintPhases()
   const { address } = useWeb3Context()
   // We should still display the countdown even if the !userMintDetails, so Loading... only shows when we don't know the current phase
   const renderMintButton = () => {
