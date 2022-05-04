@@ -1,6 +1,8 @@
 import { ethers } from 'ethers'
+import mintPhases from '../../data/phases'
+import moment from 'moment-timezone'
 
-const phases = ['TEAMS', 'ALLOWLIST', 'WAITLIST', 'PUBLIC']
+const phases = mintPhases.map((phase) => phase.name)
 export const MintMessage = ({
   userMintDetails,
   remainingMints,
@@ -28,10 +30,17 @@ export const MintMessage = ({
     currentPhaseName === 'PUBLIC'
   ) {
     return (
-      <div className="mb-6 flex justify-between whitespace-nowrap text-sm sm:text-base">
+      <div className="mb-6 flex flex-col justify-between whitespace-nowrap text-sm sm:flex-row sm:text-base">
         <div>
           <span className="text-white">YOUR MINT PHASE: </span>
-          <span className="text-[#00ff3d]">{userMintDetails.userPhase}</span>
+          <span className="text-[#00ff3d]">
+            {`${userMintDetails.userPhase}  ${moment(
+              mintPhases[phases.indexOf(userMintDetails.userPhase)]
+                .startTimestamp
+            )
+              .tz(moment.tz.guess())
+              .format('M/D LT z')}`}
+          </span>
         </div>
         <div className="ml-2 sm:ml-8">
           <span className="text-white">MINTS AVAILABLE: </span>
@@ -47,10 +56,17 @@ export const MintMessage = ({
     )
   } else if (userMintDetails) {
     return (
-      <div className="mb-6 flex justify-between whitespace-nowrap text-sm sm:text-base">
+      <div className="mb-6 flex flex-col justify-between whitespace-nowrap text-center text-sm sm:flex-row sm:text-base">
         <div>
           <span className="text-white">YOUR MINT PHASE: </span>
-          <span className="text-[#00ff3d]">{userMintDetails.userPhase}</span>
+          <span className="text-[#00ff3d]">
+            {`${userMintDetails.userPhase}  ${moment(
+              mintPhases[phases.indexOf(userMintDetails.userPhase)]
+                .startTimestamp
+            )
+              .tz(moment.tz.guess())
+              .format('M/D LT z')}`}
+          </span>
         </div>
         <div className="ml-2 sm:ml-8">
           <span className="text-white">MINTS AVAILABLE: </span>

@@ -14,7 +14,7 @@ export const Premint = () => {
       <span className="mt-8 text-center text-3xl sm:text-[32px]">
         GET READY TO ENTER FEAR CITY
       </span>
-      <span className="mt-16 mb-8 text-2xl text-[#00ff3d]">
+      <span className="mt-8 mb-8 text-2xl text-[#00ff3d]">
         MINTING STARTS IN
       </span>
     </div>

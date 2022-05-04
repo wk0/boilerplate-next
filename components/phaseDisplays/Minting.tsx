@@ -56,7 +56,7 @@ export const Minting = ({ currentPhaseName }: { currentPhaseName: string }) => {
           })}
         </div>
         <div className="mt-4 text-xs opacity-80">
-          (Times shown in {moment.tz.guess()})
+          (Times shown in {moment().tz(moment.tz.guess()).format('z')})
         </div>
       </div>
       {currentPhaseName === 'PUBLIC' ? (

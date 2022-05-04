@@ -44,6 +44,7 @@ export const useMint = (userMintDetails, currentPhaseName) => {
         // this should never happen but adding it as a safeguard just in case.
         if (remainingMints < 0) {
           setMintQuantity(0)
+          setRemainingMints(0)
         } else {
           setMintQuantity(remainingMints)
         }
