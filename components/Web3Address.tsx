@@ -1,5 +1,5 @@
 import React from 'react'
-import { useWeb3Context } from '../context/'
+import { useWeb3Context } from '../shared/context'
 
 export function Web3Address() {
   const { address } = useWeb3Context()

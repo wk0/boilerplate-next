@@ -1,5 +1,5 @@
 import React from 'react'
-import { useWeb3Context } from '../context/'
+import { useWeb3Context } from '../shared/context'
 
 interface ConnectProps {
   connect: (() => Promise<void>) | null
