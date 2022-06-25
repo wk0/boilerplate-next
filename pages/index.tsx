@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex h-screen flex-col">
       <Head>
-        <title>Web3 Next-Boilerplate</title>
+        <title>NFT bot</title>
         <meta name="description" content="Boilerplate for Web3 dApp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       </nav>
 
       <main className="grow p-8 text-center">
-        <h1 className="pb-8 text-4xl font-bold">Home Page</h1>
+        <h1 className="pb-8 text-4xl font-bold">NFT BOT</h1>
         <Web3Address />
       </main>
 
