@@ -3,21 +3,22 @@ import { getSignature } from './Web3Utils'
 import { DataToSign } from './types'
 
 const axiosObject = axios.create({
-  baseURL: 'https://cthua.ebg.tw',
-  timeout: 1000,
+  baseURL: 'https://nft-bot-354317.de.r.appspot.com',
+//   timeout: 1000,
   headers: { 'X-Custom-Header': 'foobar' },
 })
 
-const ApiPost = async (url: string, data: DataToSign, address: string) => {
+const ApiPost = async (url: string, data: DataToSign, signer: any) => {
   try {
-    const signature: string = getSignature(data, address)
+    // const adress = await signer.getAddress();
+    const signature: string = await signer.signMessage( JSON.stringify(data))
     const response = await axiosObject({
       method: 'post',
       url: url,
       data: {
         // 這格就是body
-        data,
-        signature,
+        ...data,
+        signature
       },
     })
     return response

@@ -1,36 +1,29 @@
 import { useEffect, useReducer, useCallback } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { setWeb3Provider } from "../store/web3Provider/web3Action";
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
 import API from '../common/api'
 import { DataToSign } from '../common/types'
 import {
-  Web3ProviderState,
   Web3Action,
   web3InitialState,
   web3Reducer,
-} from '../reducers'
+} from '../context/reducers'
+import { Web3ProviderState } from '../store/web3Provider/web3Types'
+import { web3ProviderAction } from '../store/web3Provider/web3Action'
+import { StoreState } from '../store/store'
 
 import { toast } from 'react-toastify'
 
 const providerOptions = {
-  binancechainwallet: {
-    package: true,
-  },
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
       infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
     },
-  },
-  coinbasewallet: {
-    package: CoinbaseWalletSDK, // Required
-    options: {
-      appName: 'NFT.bot', // Required
-      infuraId: process.env.NEXT_PUBLIC_INFURA_ID, // Required
-    },
-  },
+  }
 }
 
 let web3Modal: Web3Modal | null
@@ -40,44 +33,63 @@ if (typeof window !== 'undefined') {
     cacheProvider: true,
     providerOptions, // required
     theme: {
-      background: 'rgb(39, 49, 56)',
-      main: 'rgb(199, 199, 199)',
-      secondary: 'rgb(136, 136, 136)',
-      border: 'rgba(195, 195, 195, 0.14)',
-      hover: 'rgb(16, 26, 32)',
-    },
+      background: "rgb(39, 49, 56)",
+      main: "rgb(199, 199, 199)",
+      secondary: "rgb(136, 136, 136)",
+      border: "rgba(195, 195, 195, 0.14)",
+      hover: "rgb(16, 26, 32)"
+    }
   })
 }
 
 export const useWeb3 = () => {
   const [state, dispatch] = useReducer(web3Reducer, web3InitialState)
+  const web3ProviderState = useSelector((state:any) => state.web3Provider);
+  const dispatchReduxAction = useDispatch();
   const { provider, web3Provider, address, network } = state
 
   const connect = useCallback(async () => {
     if (web3Modal) {
+      return;
       try {
         const provider = await web3Modal.connect() //metamask , coinbase ...
         const web3Provider = new ethers.providers.Web3Provider(provider) // 該供應商的library
         const signer = await web3Provider.getSigner()
         const network = await web3Provider.getNetwork()
         const address = await signer.getAddress()
-        toast.success('Connected to Web3')
+        toast.success('Connected to Web3');
         toast.info('正在登入NFT BOT')
         const postBody: DataToSign = {
           address,
-          // signer 此2者是否可轉string
-          // network 需驗證此為主網路
+          network:network.name //需驗證此為主網路
         }
-        const loginResponse = await API.POST('/api/login', postBody, address)
-        console.log('loginResponse :', loginResponse)
+        const loginResponse = await API.POST('/api/user/login',postBody,signer);
+        console.log('loginResponse :', loginResponse);
+        // if(loginResponse.status!=="200"){
+        //   toast.error('登入NFT BOT失敗，請重新登入');
+        // }
+        const newWeb3Provider : Web3ProviderState = {
+          provider,
+          web3Provider,
+          address,
+          signer,
+          network
+        }
 
         dispatch({
           type: 'SET_WEB3_PROVIDER',
           provider,
           web3Provider,
           address,
+          signer,
           network,
         } as Web3Action)
+
+        dispatchReduxAction(setWeb3Provider({
+          type: 'SET_WEB3_PROVIDER',
+          payload: newWeb3Provider
+        } as web3ProviderAction))
+
       } catch (e) {
         console.log('connect error', e)
       }
@@ -96,6 +108,11 @@ export const useWeb3 = () => {
       dispatch({
         type: 'RESET_WEB3_PROVIDER',
       } as Web3Action)
+
+      dispatchReduxAction(setWeb3Provider({
+        type: 'RESET_WEB3_PROVIDER',
+      } as web3ProviderAction))
+
     } else {
       console.error('No Web3Modal')
     }
@@ -117,6 +134,11 @@ export const useWeb3 = () => {
           type: 'SET_ADDRESS',
           address: accounts[0],
         } as Web3Action)
+
+        dispatchReduxAction(setWeb3Provider({
+          type: 'SET_ADDRESS',
+          payload:{address: accounts[0]},
+        } as web3ProviderAction))
       }
 
       // https://docs.ethers.io/v5/concepts/best-practices/#best-practices--network-changes
